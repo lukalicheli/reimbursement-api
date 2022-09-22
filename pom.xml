@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.revature</groupId>
-    <artifactId>taskmaster-api</artifactId>
+    <artifactId>reimbursement-api</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>

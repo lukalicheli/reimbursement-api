@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "app_users")
+@Table(name = "ers_users")
 public class User {
 
     @Id // indicates a primary key
@@ -29,10 +29,6 @@ public class User {
     
     @Column(name = "is_active")
     private boolean isActive;
-
-    
-
-    
     
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
@@ -43,8 +39,10 @@ public class User {
         super();
     }
 
+
     public User(UUID id, String givenName, String surname, String email, String username, String password, Role role, boolean isActive) {
         this.user_id = id;
+
         this.givenName = givenName;
         this.surname = surname;
         this.email = email;
@@ -58,8 +56,10 @@ public class User {
         return user_id;
     }
 
+
     public void setId(UUID id) {
         this.user_id = id;
+
     }
 
     public String getGivenName() {
@@ -116,19 +116,18 @@ public class User {
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
-    }
 
     @Override
     public String toString() {
-        return "User{" + 
-                "user_id=" + user_id + 
-                ", username=" + username + 
-                ", email=" + email + 
-                ", password=" + password + 
-                ", givenName=" + givenName + 
-                ", surname=" + surname + 
-                ", isActive=" + isActive + 
-                ", role=" + role + '}';
+        return "User{" +
+                "user_id='" + user_id + '\'' +
+                ", givenName='" + givenName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
     
     @Override
@@ -182,5 +181,7 @@ public class User {
             return false;
         }
         return true;
+
+        return Objects.hash(user_id, givenName, surname, email, username, password, role);
     }
 }
