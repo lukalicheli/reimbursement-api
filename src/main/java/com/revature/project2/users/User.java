@@ -5,12 +5,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "app_users")
+@Table(name = "ers_users")
 public class User {
 
     @Id // indicates a primary key
     @Column // all fields in an entity implicitly have @Column
-    private UUID id;
+    private UUID user_id;
 
     @Column(name = "given_name", nullable = false)
     private String givenName;
@@ -36,8 +36,8 @@ public class User {
         super();
     }
 
-    public User(UUID id, String givenName, String surname, String email, String username, String password, Role role) {
-        this.id = id;
+    public User(UUID user_id, String givenName, String surname, String email, String username, String password, Role role) {
+        this.user_id = user_id;
         this.givenName = givenName;
         this.surname = surname;
         this.email = email;
@@ -47,11 +47,11 @@ public class User {
     }
 
     public UUID getId() {
-        return id;
+        return user_id;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setId(UUID user_id) {
+        this.user_id = user_id;
     }
 
     public String getGivenName() {
@@ -107,18 +107,18 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(givenName, user.givenName) && Objects.equals(surname, user.surname) && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
+        return Objects.equals(user_id, user.user_id) && Objects.equals(givenName, user.givenName) && Objects.equals(surname, user.surname) && Objects.equals(email, user.email) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(role, user.role);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, givenName, surname, email, username, password, role);
+        return Objects.hash(user_id, givenName, surname, email, username, password, role);
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "user_id='" + user_id + '\'' +
                 ", givenName='" + givenName + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
