@@ -1,4 +1,4 @@
-package com.revature.taskmaster.auth;
+package com.revature.project2.auth;
 
 // This is an example of a request DTO (not required to be a Spring bean)
 public class Credentials {

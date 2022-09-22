@@ -1,4 +1,4 @@
-<Configuration status="info" name="taskmaster" packages="com.revature.taskmaster">
+<Configuration status="info" name="taskmaster" packages="com.revature.project2">
 
     <!-- Appenders is used to declare log appenders that we might use in our app -->
     <Appenders>

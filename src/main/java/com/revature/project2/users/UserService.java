@@ -1,9 +1,9 @@
-package com.revature.taskmaster.users;
+package com.revature.project2.users;
 
-import com.revature.taskmaster.common.ResourceCreationResponse;
-import com.revature.taskmaster.common.exceptions.InvalidRequestException;
-import com.revature.taskmaster.common.exceptions.ResourceNotFoundException;
-import com.revature.taskmaster.common.exceptions.ResourcePersistenceException;
+import com.revature.project2.common.ResourceCreationResponse;
+import com.revature.project2.common.exceptions.InvalidRequestException;
+import com.revature.project2.common.exceptions.ResourceNotFoundException;
+import com.revature.project2.common.exceptions.ResourcePersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,39 +14,28 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-    private final UserDAO userDAO;
+    private final UserRepository userRepo;
 
     @Autowired
-    public UserService(UserDAO userDAO) {
-        this.userDAO = userDAO;
+    public UserService(UserRepository userRepo) {
+        this.userRepo = userRepo;
     }
 
     public List<UserResponse> getAllUsers() {
-        return userDAO.getAllUsers()
+        return userRepo.findAll()
                       .stream()
                       .map(UserResponse::new)
                       .collect(Collectors.toList());
     }
 
     public UserResponse getUserById(String id) {
-
-        if (id == null || id.length() <= 0) {
-            throw new InvalidRequestException("A non-empty id must be provided!");
-        }
-
         try {
-
-            UUID uuid = UUID.fromString(id);
-            return userDAO.findUserById(uuid)
-                          .map(UserResponse::new)
-                          .orElseThrow(ResourceNotFoundException::new);
-
+            return userRepo.findById(UUID.fromString(id))
+                           .map(UserResponse::new)
+                           .orElseThrow(ResourceNotFoundException::new);
         } catch (IllegalArgumentException e) {
-            throw new InvalidRequestException("An invalid UUID string was provided.");
+            throw new InvalidRequestException("A valid uuid must be provided!");
         }
-
-
-
     }
 
     public ResourceCreationResponse register(NewUserRequest newUser) {
@@ -73,17 +62,17 @@ public class UserService {
             throw new InvalidRequestException("A password with at least 8 characters must be provided.");
         }
 
-        if (userDAO.isEmailTaken(newUser.getEmail())) {
+        if (userRepo.existsByEmail(newUser.getEmail())) {
             throw new ResourcePersistenceException("Resource not persisted! The provided email is already taken.");
         }
 
-        if (userDAO.isUsernameTaken(newUser.getUsername())) {
+        if (userRepo.existsByUsername(newUser.getUsername())) {
             throw new ResourcePersistenceException("Resource not persisted! The provided username is already taken.");
         }
 
         User userToPersist = newUser.extractEntity();
-        String newUserId = userDAO.save(userToPersist);
-        return new ResourceCreationResponse(newUserId);
+        userRepo.save(userToPersist);
+        return new ResourceCreationResponse(userToPersist.getId().toString());
 
     }
 }
