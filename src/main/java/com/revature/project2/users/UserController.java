@@ -31,7 +31,7 @@ public class UserController {
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
         HttpSession userSession = req.getSession(false);
         enforceAuthentication(userSession);
-        enforcePermissions(userSession, "DIRECTOR");
+        enforcePermissions(userSession, "admin");
         return userService.getAllUsers();
     }
 
@@ -39,7 +39,7 @@ public class UserController {
     public UserResponse getUserById(@PathVariable String id, HttpSession userSession) {
         logger.info("A GET request was received by /users/{id} at {}", LocalDateTime.now());
         enforceAuthentication(userSession);
-        enforcePermissions(userSession, "DIRECTOR");
+        enforcePermissions(userSession, "employee");
         return userService.getUserById(id);
     }
 
