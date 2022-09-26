@@ -1,6 +1,7 @@
 package com.revature.project2.users;
 
 import com.revature.project2.common.ResourceCreationResponse;
+import com.revature.project2.common.SecurityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,18 @@ public class UserController {
     public UserResponse getUserById(@PathVariable String id, HttpSession userSession) {
         logger.info("A GET request was received by /users/{id} at {}", LocalDateTime.now());
         enforceAuthentication(userSession);
-        enforcePermissions(userSession, "employee");
+//        enforcePermissions(userSession, "employee");
+        enforcePermissions(userSession, "admin");
         return userService.getUserById(id);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResourceCreationResponse registerNewUser(@RequestBody NewUserRequest requestBody) {
+    public ResourceCreationResponse registerNewUser(@RequestBody NewUserRequest requestBody, HttpServletRequest req) {
         logger.info("A POST request was received by /users at {}", LocalDateTime.now());
+        HttpSession userSession = req.getSession(false);
+
+        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforcePermissions(userSession, "admin");
         return userService.register(requestBody);
     }
 

@@ -56,8 +56,8 @@ public class User {
     }
 
 
-    public void setId(UUID id) {
-        this.user_id = id;
+    public void setId(UUID user_id) {
+        this.user_id = user_id;
 
     }
 
