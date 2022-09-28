@@ -5,24 +5,25 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "ers_reimbursements")
 public class Reimbursement {
     @Id
     @Column(name = "reimb_id")
     private UUID reimbID;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "NUMERIC(6,2)", nullable = false)
     private double amount;
 
     @Column(nullable = false)
-    private String submitted;
+    private Timestamp submitted;
 
     @Column
-    private String resolved;
+    private Timestamp resolved;
 
     @Column(nullable = false)
     private String description;
@@ -38,7 +39,6 @@ public class Reimbursement {
 
     @Column(name = "type_id", nullable = false)
     private UUID typeID;
-
 
 
     public UUID getReimbID() {
@@ -57,19 +57,19 @@ public class Reimbursement {
         this.amount = amount;
     }
 
-    public String getSubmitted() {
+    public Timestamp getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(String submitted) {
+    public void setSubmitted(Timestamp submitted) {
         this.submitted = submitted;
     }
 
-    public String getResolved() {
+    public Timestamp getResolved() {
         return resolved;
     }
 
-    public void setResolved(String resolved) {
+    public void setResolved(Timestamp resolved) {
         this.resolved = resolved;
     }
 
@@ -131,8 +131,8 @@ public class Reimbursement {
         return "Reimbursement{" +
                 "reimbID=" + reimbID +
                 ", amount=" + amount +
-                ", submitted='" + submitted + '\'' +
-                ", resolved='" + resolved + '\'' +
+                ", submitted=" + submitted +
+                ", resolved=" + resolved +
                 ", description='" + description + '\'' +
                 ", authorID=" + authorID +
                 ", resolverID=" + resolverID +

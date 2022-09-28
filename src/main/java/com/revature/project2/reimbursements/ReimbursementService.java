@@ -18,7 +18,7 @@ public class ReimbursementService {
     public List<ReimbursementResponse> getAllReimbs(){
             return reimbRepo.findAll()
                       .stream()
-                      .map(UserResponse::new)
+                      .map(ReimbursementResponse::new)
                       .collect(Collectors.toList());
         }
     

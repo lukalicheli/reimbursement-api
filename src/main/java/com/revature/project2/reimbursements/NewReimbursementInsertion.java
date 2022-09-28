@@ -1,6 +1,8 @@
 package com.revature.project2.reimbursements;
 
 import com.revature.project2.common.Request;
+
+import java.sql.Timestamp;
 import java.util.UUID;
 import javax.persistence.Column;
 
@@ -8,11 +10,11 @@ import javax.persistence.Column;
 
 public class NewReimbursementInsertion implements Request<Reimbursement>{
         
-    @Column(nullable = false)
+    @Column(columnDefinition = "NUMERIC(6,2)", nullable = false)
     private double amount;
     
     @Column(nullable = false)
-    private String submitted;
+    private Timestamp submitted;
     
     @Column(nullable = false)
     private String description;
@@ -30,7 +32,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         super();
     }
 
-    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, UUID statusID, UUID typeID) {
+    public NewReimbursementInsertion(double amount, Timestamp submitted, String description, UUID authorID, UUID statusID, UUID typeID) {
         this.amount = amount;
         this.submitted = submitted;
         this.description = description;
@@ -47,11 +49,11 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         this.amount = amount;
     }
 
-    public String getSubmitted() {
+    public Timestamp getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(String submitted) {
+    public void setSubmitted(Timestamp submitted) {
         this.submitted = submitted;
     }
 
@@ -89,14 +91,16 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
 
     @Override
     public String toString() {
-        return "NewReimbursementInsertion{" + "amount=" + amount + 
-                ", submitted=" + submitted + 
-                ", description=" + description + 
-                ", authorID=" + authorID + 
-                ", statusID=" + statusID + 
-                ", typeID=" + typeID + '}';
+        return "NewReimbursementInsertion{" +
+                "amount=" + amount +
+                ", submitted=" + submitted +
+                ", description='" + description + '\'' +
+                ", authorID=" + authorID +
+                ", statusID=" + statusID +
+                ", typeID=" + typeID +
+                '}';
     }
-    
+
     @Override
     public Reimbursement extractEntity(){
         Reimbursement extractedEntity = new Reimbursement();

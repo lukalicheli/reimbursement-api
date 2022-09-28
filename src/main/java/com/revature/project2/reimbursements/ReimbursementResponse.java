@@ -3,12 +3,13 @@ package com.revature.project2.reimbursements;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.sql.Timestamp;
 
 public class ReimbursementResponse {
     private UUID reimbID;
     private double amount;
-    private String submitted;
-    private String resolved;
+    private Timestamp submitted;
+    private Timestamp resolved;
     private String description;
     private UUID authorID;
     private UUID resolverID;
@@ -49,19 +50,19 @@ public class ReimbursementResponse {
         this.amount = amount;
     }
 
-    public String getSubmitted() {
+    public Timestamp getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(String submitted) {
+    public void setSubmitted(Timestamp submitted) {
         this.submitted = submitted;
     }
 
-    public String getResolved() {
+    public Timestamp getResolved() {
         return resolved;
     }
 
-    public void setResolved(String resolved) {
+    public void setResolved(Timestamp resolved) {
         this.resolved = resolved;
     }
 
@@ -123,8 +124,8 @@ public class ReimbursementResponse {
         return "ReimbursementResponse{" +
                 "reimbID=" + reimbID +
                 ", amount=" + amount +
-                ", submitted='" + submitted + '\'' +
-                ", resolved='" + resolved + '\'' +
+                ", submitted=" + submitted +
+                ", resolved=" + resolved +
                 ", description='" + description + '\'' +
                 ", authorID=" + authorID +
                 ", resolverID=" + resolverID +
