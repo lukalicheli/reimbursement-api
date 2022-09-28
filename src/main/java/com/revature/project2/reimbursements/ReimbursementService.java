@@ -17,7 +17,7 @@ public class ReimbursementService {
     public ReimbursementResponse generate(NewReimbursementInsertion reimbImport) throws InvalidRequestException{
         
         
-        reimbImport.setTimeSub(Timestamp.valueOf(LocalDateTime.now()).toString());
+        reimbImport.setSubmitted(Timestamp.valueOf(LocalDateTime.now()).toString());
         reimbImport.setStatusID("1");
         
         if(reimbImport == null){

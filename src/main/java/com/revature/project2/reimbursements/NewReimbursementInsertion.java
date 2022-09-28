@@ -26,6 +26,19 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
     @Column(name = "type_id", nullable = false)
     private UUID typeID;
 
+    public NewReimbursementInsertion() {
+        super();
+    }
+
+    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, UUID statusID, UUID typeID) {
+        this.amount = amount;
+        this.submitted = submitted;
+        this.description = description;
+        this.authorID = authorID;
+        this.statusID = statusID;
+        this.typeID = typeID;
+    }
+
     public double getAmount() {
         return amount;
     }

@@ -72,7 +72,7 @@ public class UserService {
 
         User userToPersist = newUser.extractEntity();
         userRepo.save(userToPersist);
-        return new ResourceCreationResponse(userToPersist.getId().toString());
+        return new ResourceCreationResponse(userToPersist.getUserId().toString());
 
     }
 }
