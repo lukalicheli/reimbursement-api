@@ -1,16 +1,19 @@
 package com.revature.project2.reimbursements;
 
 
+import java.util.Objects;
+import java.util.UUID;
+
 public class ReimbursementResponse {
-    private String reimbID;
+    private UUID reimbID;
     private double amount;
-    private String timeSub;
-    private String timeResolved;
+    private String submitted;
+    private String resolved;
     private String description;
-    private int authorID;
-    private int resolverID;
-    private String statusID;
-    private String typeID;    
+    private UUID authorID;
+    private UUID resolverID;
+    private UUID statusID;
+    private UUID typeID;
 
     //make Jackson happy with default constructor
     public ReimbursementResponse(){
@@ -20,8 +23,8 @@ public class ReimbursementResponse {
     public ReimbursementResponse(Reimbursement reimbImport) {
         this.reimbID = reimbImport.getReimbID();
         this.amount = reimbImport.getAmount();
-        this.timeSub = reimbImport.getTimeSub();
-        this.timeResolved = reimbImport.getTimeResolved();
+        this.submitted = reimbImport.getSubmitted();
+        this.resolved = reimbImport.getResolved();
         this.description = reimbImport.getDescription();
         this.authorID = reimbImport.getAuthorID();
         this.resolverID = reimbImport.getResolverID();
@@ -30,12 +33,11 @@ public class ReimbursementResponse {
         
     }
 
-    //getters and setters
-    public String getReimbID() {
+    public UUID getReimbID() {
         return reimbID;
     }
 
-    public void setReimbID(String reimbID) {
+    public void setReimbID(UUID reimbID) {
         this.reimbID = reimbID;
     }
 
@@ -47,20 +49,20 @@ public class ReimbursementResponse {
         this.amount = amount;
     }
 
-    public String getTimeSub() {
-        return timeSub;
+    public String getSubmitted() {
+        return submitted;
     }
 
-    public void setTimeSub(String timeSub) {
-        this.timeSub = timeSub;
+    public void setSubmitted(String submitted) {
+        this.submitted = submitted;
     }
 
-    public String getTimeResolved() {
-        return timeResolved;
+    public String getResolved() {
+        return resolved;
     }
 
-    public void setTimeResolved(String timeResolved) {
-        this.timeResolved = timeResolved;
+    public void setResolved(String resolved) {
+        this.resolved = resolved;
     }
 
     public String getDescription() {
@@ -71,49 +73,63 @@ public class ReimbursementResponse {
         this.description = description;
     }
 
-    public int getAuthorID() {
+    public UUID getAuthorID() {
         return authorID;
     }
 
-    public void setAuthorID(int authorID) {
+    public void setAuthorID(UUID authorID) {
         this.authorID = authorID;
     }
 
-    public int getResolverID() {
+    public UUID getResolverID() {
         return resolverID;
     }
 
-    public void setResolverID(int resolverID) {
+    public void setResolverID(UUID resolverID) {
         this.resolverID = resolverID;
     }
 
-    public String getStatusID() {
+    public UUID getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(String statusID) {
+    public void setStatusID(UUID statusID) {
         this.statusID = statusID;
     }
 
-    public String getTypeID() {
+    public UUID getTypeID() {
         return typeID;
     }
 
-    public void setTypeID(String typeID) {
+    public void setTypeID(UUID typeID) {
         this.typeID = typeID;
     }
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ReimbursementResponse that = (ReimbursementResponse) o;
+        return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID) && statusID.equals(that.statusID) && typeID.equals(that.typeID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reimbID, amount, submitted, resolved, description, authorID, resolverID, statusID, typeID);
+    }
+
     @Override
     public String toString() {
-        return "ReimbursementDTO{" + 
-                "\nreimbID= " + reimbID + 
-                ", \namount= " + amount + 
-                ", \ntimeSub= " + timeSub + 
-                ", \ntimeResolved= " + timeResolved + 
-                ", \ndescription= " + description +
-                ", \nauthorID= " + authorID + 
-                ", \nresolverID= " + resolverID + 
-                ", \nstatusID= " + statusID + 
-                ", \ntypeID= " + typeID + '}';
+        return "ReimbursementResponse{" +
+                "reimbID=" + reimbID +
+                ", amount=" + amount +
+                ", submitted='" + submitted + '\'' +
+                ", resolved='" + resolved + '\'' +
+                ", description='" + description + '\'' +
+                ", authorID=" + authorID +
+                ", resolverID=" + resolverID +
+                ", statusID=" + statusID +
+                ", typeID=" + typeID +
+                '}';
     }
 }
