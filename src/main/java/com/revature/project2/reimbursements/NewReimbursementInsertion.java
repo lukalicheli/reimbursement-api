@@ -1,19 +1,31 @@
 package com.revature.project2.reimbursements;
 
 import com.revature.project2.common.Request;
+import java.util.UUID;
+import javax.persistence.Column;
 
 
 
 public class NewReimbursementInsertion implements Request<Reimbursement>{
         
+    @Column(nullable = false)
     private double amount;
-    private String timeSub;
+    
+    @Column(nullable = false)
+    private String submitted;
+    
+    @Column(nullable = false)
     private String description;
-    private int authorID;
-    private String statusID;
-    private String typeID;
+    
+    @Column(name = "author_id", nullable = false)
+    private UUID authorID;
 
-    //getters and setters
+    @Column(name = "status_id", nullable = false)
+    private UUID statusID;
+
+    @Column(name = "type_id", nullable = false)
+    private UUID typeID;
+
     public double getAmount() {
         return amount;
     }
@@ -22,12 +34,12 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         this.amount = amount;
     }
 
-    public String getTimeSub() {
-        return timeSub;
+    public String getSubmitted() {
+        return submitted;
     }
-    
-    public void setTimeSub(String timeSub) {
-        this.timeSub = timeSub;
+
+    public void setSubmitted(String submitted) {
+        this.submitted = submitted;
     }
 
     public String getDescription() {
@@ -38,53 +50,51 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         this.description = description;
     }
 
-    public int getAuthorID() {
+    public UUID getAuthorID() {
         return authorID;
     }
 
-    public void setAuthorID(int authorID) {
+    public void setAuthorID(UUID authorID) {
         this.authorID = authorID;
     }
 
-    public String getStatusID() {
+    public UUID getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(String statusID) {
+    public void setStatusID(UUID statusID) {
         this.statusID = statusID;
     }
 
-    public String getTypeID() {
+    public UUID getTypeID() {
         return typeID;
     }
 
-    public void setTypeID(String typeID) {
+    public void setTypeID(UUID typeID) {
         this.typeID = typeID;
     }
 
-    
-    
     @Override
     public String toString() {
-        return "NewReimbursementInsertion{" +
-                ", \namount=" + amount + 
-                ", \ntimeSub=" + timeSub + 
-                ", \ndescription=" + description + 
-                ", \nauthorID=" + authorID + 
-                ", \nstatusID=" + statusID + 
-                ", \ntypeID=" + typeID + '}';
+        return "NewReimbursementInsertion{" + "amount=" + amount + 
+                ", submitted=" + submitted + 
+                ", description=" + description + 
+                ", authorID=" + authorID + 
+                ", statusID=" + statusID + 
+                ", typeID=" + typeID + '}';
     }
     
-    @Override 
+    @Override
     public Reimbursement extractEntity(){
-       Reimbursement extractedEntity = new Reimbursement();
-       extractedEntity.setAmount(this.amount);
-       extractedEntity.setTimeSub(this.timeSub);
-       extractedEntity.setDescription(this.description);
-       extractedEntity.setAuthorID(this.authorID);
-       extractedEntity.setStatusID(this.statusID);
-       extractedEntity.setTypeID(this.typeID);
-       
-       return extractedEntity;
+        Reimbursement extractedEntity = new Reimbursement();
+        extractedEntity.setAmount(this.amount);
+        extractedEntity.setSubmitted(this.submitted);
+        extractedEntity.setDescription(this.description);
+        extractedEntity.setAuthorID(this.authorID);
+        extractedEntity.setStatusID(UUID.fromString("32034027-9e73-4cad-8747-17fdd3f5e3ef"));
+        extractedEntity.setTypeID(this.typeID);
+        
+        return extractedEntity;
     }
+   
 }
