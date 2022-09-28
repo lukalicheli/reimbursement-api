@@ -23,16 +23,16 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
     private UUID authorID;
 
     @Column(name = "status_id", nullable = false)
-    private UUID statusID;
+    private int statusID;
 
     @Column(name = "type_id", nullable = false)
-    private UUID typeID;
+    private int typeID;
 
     public NewReimbursementInsertion() {
         super();
     }
 
-    public NewReimbursementInsertion(double amount, Timestamp submitted, String description, UUID authorID, UUID statusID, UUID typeID) {
+    public NewReimbursementInsertion(double amount, Timestamp submitted, String description, UUID authorID, int statusID, int typeID) {
         this.amount = amount;
         this.submitted = submitted;
         this.description = description;
@@ -73,19 +73,19 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         this.authorID = authorID;
     }
 
-    public UUID getStatusID() {
+    public int getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(UUID statusID) {
+    public void setStatusID(int statusID) {
         this.statusID = statusID;
     }
 
-    public UUID getTypeID() {
+    public int getTypeID() {
         return typeID;
     }
 
-    public void setTypeID(UUID typeID) {
+    public void setTypeID(int typeID) {
         this.typeID = typeID;
     }
 
@@ -108,7 +108,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         extractedEntity.setSubmitted(this.submitted);
         extractedEntity.setDescription(this.description);
         extractedEntity.setAuthorID(this.authorID);
-        extractedEntity.setStatusID(UUID.fromString("32034027-9e73-4cad-8747-17fdd3f5e3ef"));
+        extractedEntity.setStatusID(1);
         extractedEntity.setTypeID(this.typeID);
         
         return extractedEntity;

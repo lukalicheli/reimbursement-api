@@ -13,8 +13,8 @@ public class ReimbursementResponse {
     private String description;
     private UUID authorID;
     private UUID resolverID;
-    private UUID statusID;
-    private UUID typeID;
+    private int statusID;
+    private int typeID;
 
     //make Jackson happy with default constructor
     public ReimbursementResponse(){
@@ -90,19 +90,19 @@ public class ReimbursementResponse {
         this.resolverID = resolverID;
     }
 
-    public UUID getStatusID() {
+    public int getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(UUID statusID) {
+    public void setStatusID(int statusID) {
         this.statusID = statusID;
     }
 
-    public UUID getTypeID() {
+    public int getTypeID() {
         return typeID;
     }
 
-    public void setTypeID(UUID typeID) {
+    public void setTypeID(int typeID) {
         this.typeID = typeID;
     }
 
@@ -111,7 +111,9 @@ public class ReimbursementResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReimbursementResponse that = (ReimbursementResponse) o;
-        return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID) && statusID.equals(that.statusID) && typeID.equals(that.typeID);
+        return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && 
+                resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && 
+                resolverID.equals(that.resolverID) && Double.compare(that.statusID, statusID) == 0  && Double.compare(that.typeID, typeID) == 0 ;
     }
 
     @Override
