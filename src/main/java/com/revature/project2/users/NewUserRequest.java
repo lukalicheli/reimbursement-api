@@ -72,7 +72,7 @@ public class NewUserRequest implements Request<User> {
         extractedEntity.setEmail(this.email);
         extractedEntity.setUsername(this.username);
         extractedEntity.setPassword(this.password);
-        extractedEntity.setRole(new Role(UUID.fromString("292a485f-a56a-4938-8f1a-cccccccccccc"), "employee"));
+        extractedEntity.setRole(new Role(3, "employee"));
         return extractedEntity;
     }
 

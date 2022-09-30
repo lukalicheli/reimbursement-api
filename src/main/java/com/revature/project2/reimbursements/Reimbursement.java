@@ -35,10 +35,10 @@ public class Reimbursement {
     private UUID resolverID;
 
     @Column(name = "status_id", nullable = false)
-    private UUID statusID;
+    private int statusID;
 
     @Column(name = "type_id", nullable = false)
-    private UUID typeID;
+    private int typeID;
 
 
     public UUID getReimbID() {
@@ -97,19 +97,19 @@ public class Reimbursement {
         this.resolverID = resolverID;
     }
 
-    public UUID getStatusID() {
+    public int getStatusID() {
         return statusID;
     }
 
-    public void setStatusID(UUID statusID) {
+    public void setStatusID(int statusID) {
         this.statusID = statusID;
     }
 
-    public UUID getTypeID() {
+    public int getTypeID() {
         return typeID;
     }
 
-    public void setTypeID(UUID typeID) {
+    public void setTypeID(int typeID) {
         this.typeID = typeID;
     }
 
@@ -118,7 +118,9 @@ public class Reimbursement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reimbursement that = (Reimbursement) o;
-        return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID) && statusID.equals(that.statusID) && typeID.equals(that.typeID);
+        return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && 
+                resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && 
+                resolverID.equals(that.resolverID) && Double.compare(that.statusID, statusID) == 0  && Double.compare(that.typeID, typeID) == 0 ;
     }
 
     @Override

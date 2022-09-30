@@ -5,14 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "ers_user_roles")
 public class Role {
 
     @Id
-    private UUID role_id;
+    private int role_id;
 
     @Column(name = "role", nullable = false, unique = true)
     private String name;
@@ -21,16 +20,16 @@ public class Role {
         super();
     }
 
-    public Role(UUID role_id, String role) {
+    public Role(int role_id, String role) {
         this.role_id = role_id;
         this.name = role;
     }
 
-    public UUID getId() {
+    public int getId() {
         return role_id;
     }
 
-    public void setId(UUID role_id) {
+    public void setId(int role_id) {
         this.role_id = role_id;
     }
 
