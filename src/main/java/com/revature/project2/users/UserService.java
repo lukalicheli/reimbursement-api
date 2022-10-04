@@ -26,7 +26,7 @@ public class UserService {
                       .stream()
                       .map(UserResponse::new)
                       .collect(Collectors.toList());
-    }
+    }//end getAllUsers method
 
     public UserResponse getUserById(String id) {
         try {
@@ -36,7 +36,17 @@ public class UserService {
         } catch (IllegalArgumentException e) {
             throw new InvalidRequestException("A valid uuid must be provided!");
         }
-    }
+    }//end getUserById method
+    
+    public UserResponse getUserByUsername(String usernameImport) {
+        try {
+            return userRepo.findUserByUsername(usernameImport)
+                           .map(UserResponse::new)
+                           .orElseThrow(ResourceNotFoundException::new);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid username must be provided!");
+        }
+    }//end getUserByUsername method
 
     public ResourceCreationResponse register(NewUserRequest newUser) {
 
@@ -74,5 +84,44 @@ public class UserService {
         userRepo.save(userToPersist);
         return new ResourceCreationResponse(userToPersist.getUserId().toString());
 
-    }
-}
+    }//end register method
+    
+    public UserResponse activateUser(String usernameImport){
+        try{    
+            User targetUser = userRepo.findUserByUsername(usernameImport)
+                    .map(User::new)
+                    .orElseThrow(ResourceNotFoundException::new);
+            
+            targetUser.setActive(true);
+
+            userRepo.save(targetUser);
+            
+            return new UserResponse(targetUser);
+        }catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid uuid must be provided!");
+        }catch (ResourceNotFoundException e) {
+            throw new InvalidRequestException("No user found matching that username!");
+        }
+        
+    }//end activateUser method
+    
+    public UserResponse deactivateUser(String usernameImport){
+        try{    
+            User targetUser = userRepo.findUserByUsername(usernameImport).orElse(null);
+            targetUser.setActive(false);
+
+            userRepo.save(targetUser);
+            
+            return new UserResponse(targetUser);
+        }catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid uuid must be provided!");
+        }
+        
+    }//end deactivateUser method
+    
+//    public UserResponse updateUserRole(){
+//        
+//    }//end updateUserRole method
+    
+    
+}//end UserService class
