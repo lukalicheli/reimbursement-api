@@ -29,7 +29,7 @@ public class ReimbursementsController {
     
     
     @GetMapping(produces = "application/json")
-    public List<ReimbursementResponse> getAllUsers(HttpServletRequest req) {
+    public List<ReimbursementResponse> getAllReimbs(HttpServletRequest req) {
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
         HttpSession userSession = req.getSession(false);
         enforceAuthentication(userSession);
