@@ -55,4 +55,19 @@ public class UserController {
         return userService.register(requestBody);
     }
 
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    public UserResponse updateUserActivationById(@RequestBody String username, boolean newActiveStatus, HttpServletRequest req) {
+        logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
+        
+        //confirming that a user is logged in and that they have "admin" credentials 
+        HttpSession userSession = req.getSession(false);
+        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforcePermissions(userSession, "admin");
+        
+        if(newActiveStatus == true){
+            return userService.activateUser(username);
+        }else{
+            return userService.deactivateUser(username);
+        }
+    }
 }
