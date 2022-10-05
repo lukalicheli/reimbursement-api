@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -26,7 +27,7 @@ public class UserService {
                       .stream()
                       .map(UserResponse::new)
                       .collect(Collectors.toList());
-    }
+    }//end getAllUsers method
 
     public UserResponse getUserById(String id) {
         try {
@@ -36,7 +37,17 @@ public class UserService {
         } catch (IllegalArgumentException e) {
             throw new InvalidRequestException("A valid uuid must be provided!");
         }
-    }
+    }//end getUserById method
+    
+    public UserResponse getUserByUsername(String usernameImport) {
+        try {
+            return userRepo.findByUsername(usernameImport)
+                           .map(UserResponse::new)
+                           .orElseThrow(ResourceNotFoundException::new);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid username must be provided!");
+        }
+    }//end getUserByUsername method
 
     public ResourceCreationResponse register(NewUserRequest newUser) {
 
@@ -74,5 +85,38 @@ public class UserService {
         userRepo.save(userToPersist);
         return new ResourceCreationResponse(userToPersist.getUserId().toString());
 
-    }
-}
+    }//end register method
+    
+    @Transactional
+    public UserResponse activateUser(String usernameImport){
+        try{    
+            userRepo.activateUser(usernameImport);
+            
+            return new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
+        }catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid uuid must be provided!");
+        }
+        
+    }//end activateUser method
+    
+    @Transactional
+    public UserResponse deactivateUser(String usernameImport){
+        try{    
+            userRepo.deactivateUser(usernameImport);
+            
+            
+            UserResponse result = new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
+            
+            return result;
+        }catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid uuid must be provided!");
+        }
+        
+    }//end deactivateUser method
+    
+//    public UserResponse updateUserRole(){
+//        
+//    }//end updateUserRole method
+    
+    
+}//end UserService class

@@ -12,6 +12,7 @@ public class UserResponse implements Serializable {
     private String email;
     private String username;
     private String role;
+    private boolean isActive;
 
     public UserResponse(User subject) {
         this.id = subject.getUserId().toString();
@@ -20,6 +21,7 @@ public class UserResponse implements Serializable {
         this.email = subject.getEmail();
         this.username = subject.getUsername();
         this.role = subject.getRole().getName();
+        this.isActive = subject.getActive();
     }
 
     public String getId() {
@@ -69,18 +71,27 @@ public class UserResponse implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
+    
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean active) {
+        this.isActive = active;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserResponse that = (UserResponse) o;
-        return Objects.equals(id, that.id) && Objects.equals(givenName, that.givenName) && Objects.equals(surname, that.surname) && Objects.equals(email, that.email) && Objects.equals(username, that.username) && Objects.equals(role, that.role);
+        return Objects.equals(id, that.id) && Objects.equals(givenName, that.givenName) && Objects.equals(surname, that.surname) && 
+                Objects.equals(email, that.email) && Objects.equals(username, that.username) && Objects.equals(role, that.role) && Objects.equals(isActive, that.isActive);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, givenName, surname, email, username, role);
+        return Objects.hash(id, givenName, surname, email, username, role, isActive);
     }
 
     @Override
@@ -92,6 +103,7 @@ public class UserResponse implements Serializable {
                 ", email='" + email + '\'' +
                 ", username='" + username + '\'' +
                 ", role='" + role + '\'' +
+                ", active='" + isActive +'\'' +
                 '}';
     }
 

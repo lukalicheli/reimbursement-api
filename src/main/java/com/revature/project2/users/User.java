@@ -97,7 +97,7 @@ public class User {
         this.surname = surname;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return isActive;
     }
 
