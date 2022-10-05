@@ -21,6 +21,7 @@ public class UserResponse implements Serializable {
         this.email = subject.getEmail();
         this.username = subject.getUsername();
         this.role = subject.getRole().getName();
+        this.isActive = subject.getActive();
     }
 
     public String getId() {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -40,7 +41,7 @@ public class UserService {
     
     public UserResponse getUserByUsername(String usernameImport) {
         try {
-            return userRepo.findUserByUsername(usernameImport)
+            return userRepo.findByUsername(usernameImport)
                            .map(UserResponse::new)
                            .orElseThrow(ResourceNotFoundException::new);
         } catch (IllegalArgumentException e) {
@@ -86,33 +87,27 @@ public class UserService {
 
     }//end register method
     
+    @Transactional
     public UserResponse activateUser(String usernameImport){
         try{    
-            User targetUser = userRepo.findUserByUsername(usernameImport)
-                    .map(User::new)
-                    .orElseThrow(ResourceNotFoundException::new);
+            userRepo.activateUser(usernameImport);
             
-            targetUser.setActive(true);
-
-            userRepo.save(targetUser);
-            
-            return new UserResponse(targetUser);
+            return new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
         }catch (IllegalArgumentException e) {
             throw new InvalidRequestException("A valid uuid must be provided!");
-        }catch (ResourceNotFoundException e) {
-            throw new InvalidRequestException("No user found matching that username!");
         }
         
     }//end activateUser method
     
+    @Transactional
     public UserResponse deactivateUser(String usernameImport){
         try{    
-            User targetUser = userRepo.findUserByUsername(usernameImport).orElse(null);
-            targetUser.setActive(false);
-
-            userRepo.save(targetUser);
+            userRepo.deactivateUser(usernameImport);
             
-            return new UserResponse(targetUser);
+            
+            UserResponse result = new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
+            
+            return result;
         }catch (IllegalArgumentException e) {
             throw new InvalidRequestException("A valid uuid must be provided!");
         }
