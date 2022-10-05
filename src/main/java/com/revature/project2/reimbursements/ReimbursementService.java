@@ -1,7 +1,16 @@
 package com.revature.project2.reimbursements;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import com.revature.project2.common.ResourceCreationResponse;
+import com.revature.project2.common.exceptions.InvalidRequestException;
+import com.revature.project2.common.exceptions.ResourceNotFoundException;
+import com.revature.project2.users.User;
+import com.revature.project2.users.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,32 +29,37 @@ public class ReimbursementService {
                       .map(ReimbursementResponse::new)
                       .collect(Collectors.toList());
         }
+
+    public ReimbursementResponse getReimbByID(String id) {
+        try {
+            return reimbRepo.findById(UUID.fromString(id))
+                    .map(ReimbursementResponse::new)
+                    .orElseThrow(ResourceNotFoundException::new);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidRequestException("A valid uuid must be provided!");
+        }
+    }
     
-    
-    
-//    public ReimbursementResponse generate(NewReimbursementInsertion reimbImport) throws InvalidRequestException{
-//        
-//        
-//        reimbImport.setSubmitted(Timestamp.valueOf(LocalDateTime.now()).toString());
-//        reimbImport.setStatusID("1");
-//        
-//        if(reimbImport == null){
-//            throw new InvalidRequestException("ERROR: can not register null payload");
-//        }
-//        if(reimbImport.getAmount() <= 0){
-//            throw new InvalidRequestException("ERROR: can not register reimbursement amount less than $0.01");
-//        }
-//        if(reimbImport.getDescription() == null || reimbImport.getDescription().length() <= 0 ){
-//            throw new InvalidRequestException("ERROR: reimbursement description must be provided");
-//        }
-//        if(reimbImport.getTypeID() == null || reimbImport.getTypeID().length() <= 0 ){
-//            throw new InvalidRequestException("ERROR: TypeID must be listed");
-//        }
-//        
-//        Reimbursement target = reimbRepo.create(reimbImport).orElse(null);
-//        ReimbursementResponse result = new ReimbursementResponse(target);
-//        return result;
-//    }//end generate method
+    public ResourceCreationResponse generate(NewReimbursementInsertion reimbImport) {
+
+
+        reimbImport.setSubmitted(Timestamp.valueOf(LocalDateTime.now()));
+        reimbImport.setStatusID(1);
+
+        if(reimbImport == null){
+            throw new InvalidRequestException("ERROR: can not register null payload");
+        }
+        if(reimbImport.getAmount() <= 0){
+            throw new InvalidRequestException("ERROR: can not register reimbursement amount less than $0.01");
+        }
+        if(reimbImport.getDescription() == null || reimbImport.getDescription().length() <= 0 ){
+            throw new InvalidRequestException("ERROR: reimbursement description must be provided");
+        }
+
+        Reimbursement reimbToPersist = reimbImport.extractEntity();
+        reimbRepo.save(reimbToPersist);
+        return new ResourceCreationResponse(reimbToPersist.getReimbID().toString());
+   }
 //    
 //    
 //    

@@ -104,6 +104,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
     @Override
     public Reimbursement extractEntity(){
         Reimbursement extractedEntity = new Reimbursement();
+        extractedEntity.setReimbID(UUID.randomUUID());
         extractedEntity.setAmount(this.amount);
         extractedEntity.setSubmitted(this.submitted);
         extractedEntity.setDescription(this.description);
