@@ -2,7 +2,6 @@ package com.revature.project2.reimbursements;
 
 import com.revature.project2.common.Request;
 
-import java.sql.Timestamp;
 import java.util.UUID;
 import javax.persistence.Column;
 

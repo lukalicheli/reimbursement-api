@@ -3,7 +3,6 @@ package com.revature.project2.reimbursements;
 
 import java.util.Objects;
 import java.util.UUID;
-import java.sql.Timestamp;
 
 public class ReimbursementResponse {
     private UUID reimbID;
