@@ -8,15 +8,15 @@ import java.sql.Timestamp;
 public class ReimbursementResponse {
     private UUID reimbID;
     private double amount;
-    private Timestamp submitted;
-    private Timestamp resolved;
+    private String submitted;
+    private String resolved;
     private String description;
     private UUID authorID;
     private UUID resolverID;
     private int statusID;
     private int typeID;
 
-    //make Jackson happy with default constructor
+
     public ReimbursementResponse(){
         super();
     }
@@ -31,7 +31,7 @@ public class ReimbursementResponse {
         this.resolverID = reimbImport.getResolverID();
         this.statusID = reimbImport.getStatusID();
         this.typeID = reimbImport.getTypeID();
-        
+
     }
 
     public UUID getReimbID() {
@@ -50,19 +50,19 @@ public class ReimbursementResponse {
         this.amount = amount;
     }
 
-    public Timestamp getSubmitted() {
+    public String getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(Timestamp submitted) {
+    public void setSubmitted(String submitted) {
         this.submitted = submitted;
     }
 
-    public Timestamp getResolved() {
+    public String getResolved() {
         return resolved;
     }
 
-    public void setResolved(Timestamp resolved) {
+    public void setResolved(String resolved) {
         this.resolved = resolved;
     }
 

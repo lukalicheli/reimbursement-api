@@ -14,7 +14,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
     private double amount;
     
     @Column(nullable = false)
-    private Timestamp submitted;
+    private String submitted;
     
     @Column(nullable = false)
     private String description;
@@ -32,7 +32,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         super();
     }
 
-    public NewReimbursementInsertion(double amount, Timestamp submitted, String description, UUID authorID, int statusID, int typeID) {
+    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, int statusID, int typeID) {
         this.amount = amount;
         this.submitted = submitted;
         this.description = description;
@@ -49,11 +49,11 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         this.amount = amount;
     }
 
-    public Timestamp getSubmitted() {
+    public String getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(Timestamp submitted) {
+    public void setSubmitted(String submitted) {
         this.submitted = submitted;
     }
 
@@ -87,18 +87,6 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
 
     public void setTypeID(int typeID) {
         this.typeID = typeID;
-    }
-
-    @Override
-    public String toString() {
-        return "NewReimbursementInsertion{" +
-                "amount=" + amount +
-                ", submitted=" + submitted +
-                ", description='" + description + '\'' +
-                ", authorID=" + authorID +
-                ", statusID=" + statusID +
-                ", typeID=" + typeID +
-                '}';
     }
 
     @Override

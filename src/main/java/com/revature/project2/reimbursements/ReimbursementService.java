@@ -43,7 +43,7 @@ public class ReimbursementService {
     public ResourceCreationResponse generate(NewReimbursementInsertion reimbImport) {
 
 
-        reimbImport.setSubmitted(Timestamp.valueOf(LocalDateTime.now()));
+        reimbImport.setSubmitted(Timestamp.valueOf(LocalDateTime.now()).toString());
         reimbImport.setStatusID(1);
 
         if(reimbImport == null){
