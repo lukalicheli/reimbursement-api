@@ -22,11 +22,11 @@ public class ReimbursementService {
     }
     
     public List<ReimbursementResponse> getAllReimbs(){
-            return reimbRepo.findAll()
-                      .stream()
-                      .map(ReimbursementResponse::new)
-                      .collect(Collectors.toList());
-        }
+        return reimbRepo.findAll()
+                  .stream()
+                  .map(ReimbursementResponse::new)
+                  .collect(Collectors.toList());
+    }//end getAllReimbs method
 
     public ReimbursementResponse getReimbByID(String id) {
         try {
@@ -36,7 +36,7 @@ public class ReimbursementService {
         } catch (IllegalArgumentException e) {
             throw new InvalidRequestException("A valid uuid must be provided!");
         }
-    }
+    }//end getReimbByID method
     
     public ResourceCreationResponse generate(NewReimbursementInsertion reimbImport) {
 
@@ -57,8 +57,50 @@ public class ReimbursementService {
         Reimbursement reimbToPersist = reimbImport.extractEntity();
         reimbRepo.save(reimbToPersist);
         return new ResourceCreationResponse(reimbToPersist.getReimbID().toString());
-   }
-//    
+   }//end generate method
+    
+    public ReimbursementResponse updateStatusApproveOrDeny (ReimbursementApproveOrDenyAlteration alterationImport, String resolverIDImport){
+        //validation that neither import value is null
+        if(alterationImport == null){
+            throw new InvalidRequestException("ERROR: can not update with null payload");
+        }
+        if(resolverIDImport.equals(null)){
+            throw new InvalidRequestException("ERROR: Resolver ID null payload");
+        }
+        
+        try{
+            //attempt to find the reimbursement to be approved/denied
+            Reimbursement target = reimbRepo.findReimbursementByReimbID(alterationImport.getReimbursementID()).orElse(null); 
+            
+            
+            if(target == null){//can not update a reimbursement that is not in the database
+                throw new InvalidRequestException("ERROR: Reimbursement not found, could not alter");
+                
+            }else if (target.getStatusID() != 1){//can only update a reimbursement that is in pending status
+                throw new InvalidRequestException("ERROR: Reimbursement is not pending approval / rejection");
+            
+            }else{//reimbursement approved
+                if(alterationImport.getStatusUpdate()){
+                    target.setResolverID(UUID.fromString(resolverIDImport));
+                    target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
+                    target.setStatusID(3);
+                }else{//reimbursement denied
+                    target.setResolverID(UUID.fromString(resolverIDImport));
+                    target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
+                    target.setStatusID(2);
+                }
+                
+                reimbRepo.save(target);
+            }
+            
+            ReimbursementResponse result = new ReimbursementResponse(target);
+            return result;
+        }catch(IllegalArgumentException e){
+            throw new InvalidRequestException("ERROR: searched reimbursement was not found");
+        }
+        
+    }//end updateStatusApproveOrDeny method
+    
 //    
 //    
 //    public List<ReimbursementResponse> getAllPendingReimbs(String usernameImport){
@@ -111,34 +153,5 @@ public class ReimbursementService {
 //        }
 //    }//end of getIdentifiedReimb
 //    
-//    public ReimbursementResponse updateStatusApproveOrDeny (ReimbursementApproveOrDenyAlteration alterationImport, int resolverIDImport){
-//        if(alterationImport == null){
-//            throw new InvalidRequestException("ERROR: can not update with null payload");
-//        }
-//        if(resolverIDImport <=0 ){
-//            throw new InvalidRequestException("ERROR: Resolver ID not recognized");
-//        }
-//        
-//        try{
-//            //attempt to find the reimbursement to be approved/denied
-//            Reimbursement target = reimbRepo.getSingleByReimbID(alterationImport.getReimbursementID()).orElse(null); 
-//            
-//            
-//            if (target == null){//can not update a reimbursement that is not in the database
-//                throw new InvalidRequestException("ERROR: Reimbursement not found, could not alter");
-//            }else if (!target.getStatusID().equals("1")){//can only update a reimbursement that is in pending status
-//                throw new InvalidRequestException("ERROR: Reimbursement is not pending approval / rejection");
-//            }else{
-//                target = reimbRepo.updateReimbursementStatus(alterationImport.getReimbursementID(), alterationImport.getStatusUpdate(), resolverIDImport).orElse(null);
-//            }
-//            
-//            
-//            
-//            ReimbursementResponse result = new ReimbursementResponse(target);
-//            return result;
-//        }catch(IllegalArgumentException e){
-//            throw new InvalidRequestException("ERROR: searched reimbursement was not found");
-//        }
-//        
-//    }
+
 }//end ReimbursementService class

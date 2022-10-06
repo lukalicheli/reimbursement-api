@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.SecurityUtils;
+import com.revature.project2.users.UserResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,19 @@ public class ReimbursementsController {
         SecurityUtils.enforceAuthentication(userSession);
         SecurityUtils.enforcePermissions(userSession, "finance manager");
         return reimbService.generate(requestBody);
+    }
+    
+    @PutMapping(consumes = "application/json", produces = "application/json")
+    public ReimbursementResponse approveOrDenyReimbByID(@RequestBody ReimbursementApproveOrDenyAlteration importStatement, HttpServletRequest req){
+        logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
+        HttpSession userSession = req.getSession(false);
+        
+        //gathering who is logged in 
+        UserResponse requester = (UserResponse) userSession.getAttribute("authUser");
+        String resolver = requester.getId();
+        
+        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforcePermissions(userSession, "finance manager");
+        return reimbService.updateStatusApproveOrDeny(importStatement, resolver);
     }
 }

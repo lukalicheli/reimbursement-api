@@ -1,7 +1,9 @@
 package com.revature.project2.reimbursements;
 
+import java.util.UUID;
+
 public class ReimbursementApproveOrDenyAlteration {
-    private int reimbursementID;
+    private UUID reimbursementID;
     private boolean statusUpdate;//true if approved, false if denied
 
     //make Jackson happy with default constructor
@@ -9,17 +11,17 @@ public class ReimbursementApproveOrDenyAlteration {
         super();
     }
     
-    public ReimbursementApproveOrDenyAlteration(int reimbIDImport, boolean statusUpdateImport){
+    public ReimbursementApproveOrDenyAlteration(UUID reimbIDImport, boolean statusUpdateImport){
         this.reimbursementID = reimbIDImport;
         this.statusUpdate = statusUpdateImport;
     }
     
     //getters and setters
-    public int getReimbursementID() {
+    public UUID getReimbursementID() {
         return reimbursementID;
     }
 
-    public void setReimbursementID(int reimbursementID) {
+    public void setReimbursementID(UUID reimbursementID) {
         this.reimbursementID = reimbursementID;
     }
 
