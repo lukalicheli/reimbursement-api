@@ -9,8 +9,6 @@ import java.util.stream.Collectors;
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.exceptions.InvalidRequestException;
 import com.revature.project2.common.exceptions.ResourceNotFoundException;
-import com.revature.project2.users.User;
-import com.revature.project2.users.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

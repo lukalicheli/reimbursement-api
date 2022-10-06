@@ -9,8 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.SecurityUtils;
-import com.revature.project2.users.NewUserRequest;
-import com.revature.project2.users.UserResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
