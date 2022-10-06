@@ -20,10 +20,10 @@ public class Reimbursement {
     private double amount;
 
     @Column(nullable = false)
-    private Timestamp submitted;
+    private String submitted;
 
     @Column
-    private Timestamp resolved;
+    private String resolved;
 
     @Column(nullable = false)
     private String description;
@@ -40,6 +40,20 @@ public class Reimbursement {
     @Column(name = "type_id", nullable = false)
     private int typeID;
 
+    public Reimbursement() {
+        super();
+    }
+    public Reimbursement(UUID reimbID, double amount, String submitted, String resolved, String description, UUID authorID, UUID resolverID, int statusID, int typeID) {
+        this.reimbID = reimbID;
+        this.amount = amount;
+        this.submitted = submitted;
+        this.resolved = resolved;
+        this.description = description;
+        this.authorID = authorID;
+        this.resolverID = resolverID;
+        this.statusID = statusID;
+        this.typeID = typeID;
+    }
 
     public UUID getReimbID() {
         return reimbID;
@@ -57,19 +71,19 @@ public class Reimbursement {
         this.amount = amount;
     }
 
-    public Timestamp getSubmitted() {
+    public String getSubmitted() {
         return submitted;
     }
 
-    public void setSubmitted(Timestamp submitted) {
+    public void setSubmitted(String submitted) {
         this.submitted = submitted;
     }
 
-    public Timestamp getResolved() {
+    public String getResolved() {
         return resolved;
     }
 
-    public void setResolved(Timestamp resolved) {
+    public void setResolved(String resolved) {
         this.resolved = resolved;
     }
 
@@ -118,9 +132,7 @@ public class Reimbursement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reimbursement that = (Reimbursement) o;
-        return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && 
-                resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && 
-                resolverID.equals(that.resolverID) && Double.compare(that.statusID, statusID) == 0  && Double.compare(that.typeID, typeID) == 0 ;
+        return Double.compare(that.amount, amount) == 0 && statusID == that.statusID && typeID == that.typeID && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID);
     }
 
     @Override
@@ -133,8 +145,8 @@ public class Reimbursement {
         return "Reimbursement{" +
                 "reimbID=" + reimbID +
                 ", amount=" + amount +
-                ", submitted=" + submitted +
-                ", resolved=" + resolved +
+                ", submitted='" + submitted + '\'' +
+                ", resolved='" + resolved + '\'' +
                 ", description='" + description + '\'' +
                 ", authorID=" + authorID +
                 ", resolverID=" + resolverID +
