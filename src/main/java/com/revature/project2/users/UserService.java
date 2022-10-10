@@ -114,9 +114,34 @@ public class UserService {
         
     }//end deactivateUser method
     
-//    public UserResponse updateUserRole(){
-//        
-//    }//end updateUserRole method
+    public UserResponse updateUserRole(String usernameImport, Role roleImport){
+        //validation that neither import value is null
+        if(usernameImport == null){
+            throw new InvalidRequestException("ERROR: Null target username");
+        }
+        if(roleImport.equals(null)){
+            throw new InvalidRequestException("ERROR: New Role null payload");
+        }
+        
+        try{
+            //attempt to find the reimbursement to be approved/denied
+            User target = userRepo.findByUsername(usernameImport).orElse(null); 
+            
+            if(target == null){//can not update a reimbursement that is not in the database
+                throw new InvalidRequestException();
+            }
+                
+            target.setRole(roleImport);
+            
+            userRepo.save(target);
+            
+            UserResponse result = new UserResponse(target);
+            return result;
+            
+        }catch(IllegalArgumentException e){
+            throw new InvalidRequestException("ERROR: searched user was not found");
+        }
+    }//end updateUserRole method
     
     
 }//end UserService class
