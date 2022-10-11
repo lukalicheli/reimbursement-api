@@ -12,8 +12,6 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.revature.project2.common.SecurityUtils.*;
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -31,17 +29,16 @@ public class UserController {
     public List<UserResponse> getAllUsers(HttpServletRequest req) {
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
         HttpSession userSession = req.getSession(false);
-        enforceAuthentication(userSession);
-        enforcePermissions(userSession, "admin");
+        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforcePermissions(userSession, "admin");
         return userService.getAllUsers();
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public UserResponse getUserById(@PathVariable String id, HttpSession userSession) {
         logger.info("A GET request was received by /users/{id} at {}", LocalDateTime.now());
-        enforceAuthentication(userSession);
-//        enforcePermissions(userSession, "employee");
-        enforcePermissions(userSession, "admin");
+        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforcePermissions(userSession, "admin");
         return userService.getUserById(id);
     }
 
@@ -50,12 +47,13 @@ public class UserController {
         logger.info("A POST request was received by /users at {}", LocalDateTime.now());
         HttpSession userSession = req.getSession(false);
 
+        //confirming that a user is logged in and that they have "admin" credentials 
         SecurityUtils.enforceAuthentication(userSession);
         SecurityUtils.enforcePermissions(userSession, "admin");
         return userService.register(requestBody);
     }
 
-    @PutMapping(value = "/{username}", consumes = "application/json", produces = "application/json")
+    @PutMapping(value = "/{username}Activation", consumes = "application/json", produces = "application/json")
     public UserResponse updateUserActivationByUsername(@PathVariable String username, @RequestBody boolean newActiveStatus, HttpServletRequest req) {
         logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
         
@@ -64,11 +62,23 @@ public class UserController {
         SecurityUtils.enforceAuthentication(userSession);
         SecurityUtils.enforcePermissions(userSession, "admin");
         
-        System.out.println(newActiveStatus);
         if(newActiveStatus == true){
             return userService.activateUser(username);
         }else{
             return userService.deactivateUser(username);
         }
+    }
+    
+    @PutMapping(value = "/{username}Role", consumes = "application/json", produces = "application/json")
+    public UserResponse updateUserRoleByUsername(@PathVariable String username, @RequestBody Role role,  HttpServletRequest req){
+        logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
+        
+        //confirming that a user is logged in and that they have "admin" credentials 
+        HttpSession userSession = req.getSession(false);
+        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforcePermissions(userSession, "admin");
+        
+        
+        return userService.updateUserRole(username, role);
     }
 }
