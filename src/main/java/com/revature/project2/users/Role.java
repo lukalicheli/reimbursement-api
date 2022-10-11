@@ -24,6 +24,12 @@ public class Role {
         this.role_id = role_id;
         this.name = role;
     }
+    
+    //alternate constructor for taking JSON arguments
+    public Role(String role_id, String role) {
+        this.role_id = Integer.parseInt(role_id);
+        this.name = role;
+    }
 
     public int getId() {
         return role_id;

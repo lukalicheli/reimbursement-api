@@ -70,7 +70,7 @@ public class UserController {
     }
     
     @PutMapping(value = "/{username}Role", consumes = "application/json", produces = "application/json")
-    public UserResponse updateUserRoleByUsername(@PathVariable String username, @RequestBody String newRoleID, String newRoleName,  HttpServletRequest req){
+    public UserResponse updateUserRoleByUsername(@PathVariable String username, @RequestBody Role role,  HttpServletRequest req){
         logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
         
         //confirming that a user is logged in and that they have "admin" credentials 
@@ -78,9 +78,7 @@ public class UserController {
         SecurityUtils.enforceAuthentication(userSession);
         SecurityUtils.enforcePermissions(userSession, "admin");
         
-        //converting RoleID to int as JSON will not take in and int value cleanly
-        Role newRole = new Role(Integer.parseInt(newRoleID), newRoleName);
         
-        return userService.updateUserRole(username, newRole);
+        return userService.updateUserRole(username, role);
     }
 }
