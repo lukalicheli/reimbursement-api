@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.exceptions.InvalidRequestException;
 import com.revature.project2.common.exceptions.ResourceNotFoundException;
+import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,26 @@ public class ReimbursementService {
                   .collect(Collectors.toList());
     }//end getAllReimbs method
 
+    public List<ReimbursementResponse> getAllPendingReimbs(){
+        try{
+            List<Reimbursement> result = reimbRepo.findAllReimbursementByStatusID(1);
+            
+            if(result.isEmpty()){
+                throw new ResourceNotFoundException();
+            }
+            
+            List<ReimbursementResponse> cleanResult = new ArrayList<>();
+            
+            for(Reimbursement transfer:result){
+                cleanResult.add(new ReimbursementResponse(transfer));
+            }
+            
+            return cleanResult;
+        }catch(Exception e){
+            throw new InvalidRequestException();
+        }
+    }
+    
     public ReimbursementResponse getReimbByID(String id) {
         try {
             return reimbRepo.findById(UUID.fromString(id))

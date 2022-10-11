@@ -48,6 +48,16 @@ public class ReimbursementsController {
         enforcePermissions(userSession, "finance manager");
         return reimbService.getReimbByID(id);
     }
+    
+    @GetMapping(value = "/AllPending", produces = "application/json")
+    public List<ReimbursementResponse> getAllPendingReimbs(HttpServletRequest req){
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+        HttpSession userSession = req.getSession(false);
+        enforceAuthentication(userSession);
+        enforcePermissions(userSession, "finance manager");
+        return reimbService.getAllPendingReimbs();
+        
+    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResourceCreationResponse generate(@RequestBody NewReimbursementInsertion requestBody, HttpServletRequest req) {
