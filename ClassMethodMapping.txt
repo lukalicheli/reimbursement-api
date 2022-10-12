@@ -1,0 +1,50 @@
+Auth Controller: "/auth"
+ -(Post)authenticate
+  -> @RequestBody: Credentials object
+  <- UserResponse object
+
+ -(Delete)logout
+  -> void
+  <- void
+
+User Controller: "/users"
+ -(Get)getAllUsers
+  -> void
+  <- List<UserResponse>
+
+ -(Get)getUserById "/{id}"
+  -> @PathVariable String
+  <- UserResponse object
+
+ -(Post)registerNewUser
+  -> @RequestBody NewUserRequest object
+  <- ResourceCreationResponse object
+
+ -(Put)updateUserActivationByUsername "/{username}Activation"
+  -> @PathVariable String, @RequestBody boolean
+  <- UserResponse object
+
+ -(Put)updateUserRoleByUsername "/{username}Role"
+  -> @PathVariable String, @RequestBody Role object
+  <- UserResponse object
+
+Reimbursement Controller: "/reimb"
+ -(Get)getAllReimbs
+  -> void
+  <- List<ReimbursementResponse>
+
+ -(Get)getReimbByID "/{id}"
+  -> @PathVariable String
+  <- ReimbursementResponse object
+
+ -(Get)getAllPendingReimbs "/AllPending"
+  -> void
+  <- List<ReimbursementResponse>
+
+ -(Post)generate
+  -> @RequestBody NewReimbursementInsertion object
+  <- ResourceCreationResponse object
+
+ -(Put)approveOrDenyReimbByID
+  -> @RequestBody ReimbursementApproveOrDenyAlteration object
+  <- ReimbursementResponse object
