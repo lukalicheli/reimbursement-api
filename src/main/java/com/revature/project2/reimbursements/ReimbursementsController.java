@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin(origins="http://localhost:4200/", allowCredentials="true")
 @RestController
 @RequestMapping("/reimb")
 public class ReimbursementsController {
