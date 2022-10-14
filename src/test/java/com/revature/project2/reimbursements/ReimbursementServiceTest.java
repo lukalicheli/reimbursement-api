@@ -214,47 +214,6 @@ class ReimbursementServiceTest {
         assertEquals(1, newReimbursementInsertion.getStatusID());
     }
 
-    /**
-     * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
-     */
-    @Test
-    void testGenerate4() {
-        Reimbursement reimbursement = new Reimbursement();
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        when(reimbursementRepository.save((Reimbursement) any())).thenReturn(reimbursement);
-        assertThrows(InvalidRequestException.class,
-                () -> reimbursementService.generate(new NewReimbursementInsertion(10.0d,
-                        "ERROR: can not register reimbursement amount less than $0.01", null, UUID.randomUUID(), 1, 1)));
-    }
-
-    /**
-     * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
-     */
-    @Test
-    void testGenerate5() {
-        Reimbursement reimbursement = new Reimbursement();
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        when(reimbursementRepository.save((Reimbursement) any())).thenReturn(reimbursement);
-        assertThrows(InvalidRequestException.class,
-                () -> reimbursementService.generate(new NewReimbursementInsertion(10.0d,
-                        "ERROR: can not register reimbursement amount less than $0.01", "", UUID.randomUUID(), 1, 1)));
-    }
 
     /**
      * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
@@ -298,35 +257,6 @@ class ReimbursementServiceTest {
         verify(newReimbursementInsertion).setSubmitted((String) any());
     }
 
-    /**
-     * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
-     */
-    @Test
-    void testGenerate7() {
-        Reimbursement reimbursement = new Reimbursement();
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        when(reimbursementRepository.save((Reimbursement) any())).thenReturn(reimbursement);
-        NewReimbursementInsertion newReimbursementInsertion = mock(NewReimbursementInsertion.class);
-        when(newReimbursementInsertion.extractEntity()).thenThrow(new ResourceNotFoundException());
-        when(newReimbursementInsertion.getDescription()).thenReturn("The characteristics of someone or something");
-        when(newReimbursementInsertion.getAmount()).thenReturn(10.0d);
-        doNothing().when(newReimbursementInsertion).setStatusID(anyInt());
-        doNothing().when(newReimbursementInsertion).setSubmitted((String) any());
-        assertThrows(ResourceNotFoundException.class, () -> reimbursementService.generate(newReimbursementInsertion));
-        verify(newReimbursementInsertion).extractEntity();
-        verify(newReimbursementInsertion).getAmount();
-        verify(newReimbursementInsertion, atLeast(1)).getDescription();
-        verify(newReimbursementInsertion).setStatusID(anyInt());
-        verify(newReimbursementInsertion).setSubmitted((String) any());
-    }
 
     /**
      * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
@@ -446,45 +376,6 @@ class ReimbursementServiceTest {
         verify(reimbursement).setTypeID(anyInt());
     }
 
-    /**
-     * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
-     */
-    @Test
-    void testUpdateStatusApproveOrDeny3() {
-        when(reimbursementRepository.findReimbursementByReimbID((UUID) any())).thenReturn(Optional.empty());
-        Reimbursement reimbursement = mock(Reimbursement.class);
-        when(reimbursement.getStatusID()).thenReturn(1);
-        doNothing().when(reimbursement).setAmount(anyDouble());
-        doNothing().when(reimbursement).setAuthorID((UUID) any());
-        doNothing().when(reimbursement).setDescription((String) any());
-        doNothing().when(reimbursement).setReimbID((UUID) any());
-        doNothing().when(reimbursement).setResolved((String) any());
-        doNothing().when(reimbursement).setResolverID((UUID) any());
-        doNothing().when(reimbursement).setStatusID(anyInt());
-        doNothing().when(reimbursement).setSubmitted((String) any());
-        doNothing().when(reimbursement).setTypeID(anyInt());
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        assertThrows(InvalidRequestException.class, () -> reimbursementService
-                .updateStatusApproveOrDeny(new ReimbursementApproveOrDenyAlteration(), "Resolver IDImport"));
-        verify(reimbursementRepository).findReimbursementByReimbID((UUID) any());
-        verify(reimbursement).setAmount(anyDouble());
-        verify(reimbursement).setAuthorID((UUID) any());
-        verify(reimbursement).setDescription((String) any());
-        verify(reimbursement).setReimbID((UUID) any());
-        verify(reimbursement).setResolved((String) any());
-        verify(reimbursement).setResolverID((UUID) any());
-        verify(reimbursement).setStatusID(anyInt());
-        verify(reimbursement).setSubmitted((String) any());
-        verify(reimbursement).setTypeID(anyInt());
-    }
 
     /**
      * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
@@ -531,42 +422,7 @@ class ReimbursementServiceTest {
     /**
      * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
      */
-    @Test
-    void testUpdateStatusApproveOrDeny5() {
-        Reimbursement reimbursement = mock(Reimbursement.class);
-        when(reimbursement.getStatusID()).thenReturn(1);
-        doNothing().when(reimbursement).setAmount(anyDouble());
-        doNothing().when(reimbursement).setAuthorID((UUID) any());
-        doNothing().when(reimbursement).setDescription((String) any());
-        doNothing().when(reimbursement).setReimbID((UUID) any());
-        doNothing().when(reimbursement).setResolved((String) any());
-        doNothing().when(reimbursement).setResolverID((UUID) any());
-        doNothing().when(reimbursement).setStatusID(anyInt());
-        doNothing().when(reimbursement).setSubmitted((String) any());
-        doNothing().when(reimbursement).setTypeID(anyInt());
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        Optional<Reimbursement> ofResult = Optional.of(reimbursement);
-        when(reimbursementRepository.findReimbursementByReimbID((UUID) any())).thenReturn(ofResult);
-        assertThrows(InvalidRequestException.class,
-                () -> reimbursementService.updateStatusApproveOrDeny(null, "Resolver IDImport"));
-        verify(reimbursement).setAmount(anyDouble());
-        verify(reimbursement).setAuthorID((UUID) any());
-        verify(reimbursement).setDescription((String) any());
-        verify(reimbursement).setReimbID((UUID) any());
-        verify(reimbursement).setResolved((String) any());
-        verify(reimbursement).setResolverID((UUID) any());
-        verify(reimbursement).setStatusID(anyInt());
-        verify(reimbursement).setSubmitted((String) any());
-        verify(reimbursement).setTypeID(anyInt());
-    }
+
 
     /**
      * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
@@ -606,49 +462,6 @@ class ReimbursementServiceTest {
         reimbursementService.updateStatusApproveOrDeny(new ReimbursementApproveOrDenyAlteration(), "Resolver IDImport");
     }
 
-    /**
-     * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
-     */
-    @Test
-    void testUpdateStatusApproveOrDeny7() {
-        Reimbursement reimbursement = mock(Reimbursement.class);
-        when(reimbursement.getStatusID()).thenReturn(-1);
-        doNothing().when(reimbursement).setAmount(anyDouble());
-        doNothing().when(reimbursement).setAuthorID((UUID) any());
-        doNothing().when(reimbursement).setDescription((String) any());
-        doNothing().when(reimbursement).setReimbID((UUID) any());
-        doNothing().when(reimbursement).setResolved((String) any());
-        doNothing().when(reimbursement).setResolverID((UUID) any());
-        doNothing().when(reimbursement).setStatusID(anyInt());
-        doNothing().when(reimbursement).setSubmitted((String) any());
-        doNothing().when(reimbursement).setTypeID(anyInt());
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        Optional<Reimbursement> ofResult = Optional.of(reimbursement);
-        when(reimbursementRepository.findReimbursementByReimbID((UUID) any())).thenReturn(ofResult);
-        ReimbursementApproveOrDenyAlteration reimbursementApproveOrDenyAlteration = mock(
-                ReimbursementApproveOrDenyAlteration.class);
-        when(reimbursementApproveOrDenyAlteration.getReimbursementID()).thenThrow(new ResourceNotFoundException());
-        assertThrows(ResourceNotFoundException.class, () -> reimbursementService
-                .updateStatusApproveOrDeny(reimbursementApproveOrDenyAlteration, "Resolver IDImport"));
-        verify(reimbursement).setAmount(anyDouble());
-        verify(reimbursement).setAuthorID((UUID) any());
-        verify(reimbursement).setDescription((String) any());
-        verify(reimbursement).setReimbID((UUID) any());
-        verify(reimbursement).setResolved((String) any());
-        verify(reimbursement).setResolverID((UUID) any());
-        verify(reimbursement).setStatusID(anyInt());
-        verify(reimbursement).setSubmitted((String) any());
-        verify(reimbursement).setTypeID(anyInt());
-        verify(reimbursementApproveOrDenyAlteration).getReimbursementID();
-    }
 
     /**
      * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
@@ -692,48 +505,4 @@ class ReimbursementServiceTest {
         reimbursementService.updateStatusApproveOrDeny(reimbursementApproveOrDenyAlteration, null);
     }
 
-    /**
-     * Method under test: {@link ReimbursementService#updateStatusApproveOrDeny(ReimbursementApproveOrDenyAlteration, String)}
-     */
-    @Test
-    void testUpdateStatusApproveOrDeny9() {
-        Reimbursement reimbursement = mock(Reimbursement.class);
-        when(reimbursement.getStatusID()).thenReturn(-1);
-        doNothing().when(reimbursement).setAmount(anyDouble());
-        doNothing().when(reimbursement).setAuthorID((UUID) any());
-        doNothing().when(reimbursement).setDescription((String) any());
-        doNothing().when(reimbursement).setReimbID((UUID) any());
-        doNothing().when(reimbursement).setResolved((String) any());
-        doNothing().when(reimbursement).setResolverID((UUID) any());
-        doNothing().when(reimbursement).setStatusID(anyInt());
-        doNothing().when(reimbursement).setSubmitted((String) any());
-        doNothing().when(reimbursement).setTypeID(anyInt());
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatusID(1);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setTypeID(1);
-        Optional<Reimbursement> ofResult = Optional.of(reimbursement);
-        when(reimbursementRepository.findReimbursementByReimbID((UUID) any())).thenReturn(ofResult);
-        ReimbursementApproveOrDenyAlteration reimbursementApproveOrDenyAlteration = mock(
-                ReimbursementApproveOrDenyAlteration.class);
-        when(reimbursementApproveOrDenyAlteration.getReimbursementID()).thenThrow(new IllegalArgumentException());
-        assertThrows(InvalidRequestException.class, () -> reimbursementService
-                .updateStatusApproveOrDeny(reimbursementApproveOrDenyAlteration, "Resolver IDImport"));
-        verify(reimbursement).setAmount(anyDouble());
-        verify(reimbursement).setAuthorID((UUID) any());
-        verify(reimbursement).setDescription((String) any());
-        verify(reimbursement).setReimbID((UUID) any());
-        verify(reimbursement).setResolved((String) any());
-        verify(reimbursement).setResolverID((UUID) any());
-        verify(reimbursement).setStatusID(anyInt());
-        verify(reimbursement).setSubmitted((String) any());
-        verify(reimbursement).setTypeID(anyInt());
-        verify(reimbursementApproveOrDenyAlteration).getReimbursementID();
-    }
 }
-
