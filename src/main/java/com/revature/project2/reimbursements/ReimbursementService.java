@@ -47,7 +47,7 @@ public class ReimbursementService {
         }catch(Exception e){
             throw new InvalidRequestException();
         }
-    }
+    }//end getAllPendingReimbs method
     
     public ReimbursementResponse getReimbByID(String id) {
         try {
@@ -121,58 +121,5 @@ public class ReimbursementService {
         }
         
     }//end updateStatusApproveOrDeny method
-    
-//    
-//    
-//    public List<ReimbursementResponse> getAllPendingReimbs(String usernameImport){
-//        List<ReimbursementResponse> result = new ArrayList<>();
-//        List<Reimbursement> reimbList = reimbRepo.getAllPending(usernameImport);
-//        for(Reimbursement transfer : reimbList){
-//            result.add(new ReimbursementResponse(transfer));
-//        }
-//        
-//        return result;
-//    }
-//    
-//    public List<ReimbursementResponse> getOwnedReimbs(String usernameImport){
-//        List<ReimbursementResponse> result = new ArrayList<>();
-//        List<Reimbursement> reimbList = reimbRepo.getOwned(usernameImport);
-//        for(Reimbursement transfer : reimbList){
-//            result.add(new ReimbursementResponse(transfer));
-//        }
-//        
-//        return result;
-//    }
-//    
-//    public List<ReimbursementResponse> getOwnedPendingReimbs(String usernameImport){
-//        List<ReimbursementResponse> result = new ArrayList<>();
-//        List<Reimbursement> reimbList = reimbRepo.getOwnedPending(usernameImport);
-//        for(Reimbursement transfer : reimbList){
-//            result.add(new ReimbursementResponse(transfer));
-//        }
-//        
-//        return result;
-//    }
-//    
-//    public ReimbursementResponse getIdentifiedReimb(int reimbIDImport){
-//        //filter invalid usernames
-//        if(reimbIDImport <= 0){
-//            throw new InvalidRequestException(
-//                    "ERROR: ReimbusementeID number must be greater than 0");
-//        }
-//        
-//        try{
-//            Reimbursement target = reimbRepo.getSingleByReimbID(reimbIDImport).orElse(null); 
-//            if (target == null){
-//                throw new IllegalArgumentException("ERROR: Reimbursement not found");
-//            }
-//            
-//            ReimbursementResponse result = new ReimbursementResponse(target);
-//            return result;
-//        }catch(IllegalArgumentException e){
-//            throw new InvalidRequestException("ERROR: searched reimbursement was not found");
-//        }
-//    }//end of getIdentifiedReimb
-//    
 
 }//end ReimbursementService class
