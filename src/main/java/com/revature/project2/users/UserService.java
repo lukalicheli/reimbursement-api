@@ -141,7 +141,9 @@ public class UserService {
         }catch(IllegalArgumentException e){
             throw new InvalidRequestException("ERROR: searched user was not found");
         }
+        
+
     }//end updateUserRole method
-    
+
     
 }//end UserService class
