@@ -46,11 +46,10 @@ public class UserController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResourceCreationResponse registerNewUser(@RequestBody NewUserRequest requestBody, HttpServletRequest req) {
         logger.info("A POST request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
 
         //confirming that a user is logged in and that they have "admin" credentials 
-        SecurityUtils.enforceAuthentication(userSession);
-        SecurityUtils.enforcePermissions(userSession, "admin");
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         return userService.register(requestBody);
     }
 
@@ -59,9 +58,9 @@ public class UserController {
         logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
         
         //confirming that a user is logged in and that they have "admin" credentials 
-        HttpSession userSession = req.getSession(false);
-        SecurityUtils.enforceAuthentication(userSession);
-        SecurityUtils.enforcePermissions(userSession, "admin");
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         
         if(newActiveStatus == true){
             return userService.activateUser(username);
@@ -75,9 +74,9 @@ public class UserController {
         logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
         
         //confirming that a user is logged in and that they have "admin" credentials 
-        HttpSession userSession = req.getSession(false);
-        SecurityUtils.enforceAuthentication(userSession);
-        SecurityUtils.enforcePermissions(userSession, "admin");
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         
         
         return userService.updateUserRole(username, role);
