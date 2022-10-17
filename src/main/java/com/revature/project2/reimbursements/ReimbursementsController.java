@@ -56,9 +56,28 @@ public class ReimbursementsController {
         HttpSession userSession = req.getSession(false);
         enforceAuthentication(userSession);
         enforcePermissions(userSession, "finance manager");
-        return reimbService.getAllPendingReimbs();
-        
+        return reimbService.getAllReimbsByStatus(1);
     }
+
+    @GetMapping(value = "/AllDenied", produces = "application/json")
+    public List<ReimbursementResponse> getAllDeniedReimbs(HttpServletRequest req){
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+        HttpSession userSession = req.getSession(false);
+        enforceAuthentication(userSession);
+        enforcePermissions(userSession, "finance manager");
+        return reimbService.getAllReimbsByStatus(2);
+    }
+
+    @GetMapping(value = "/AllApproved", produces = "application/json")
+    public List<ReimbursementResponse> getAllApprovedReimbs(HttpServletRequest req){
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+        HttpSession userSession = req.getSession(false);
+        enforceAuthentication(userSession);
+        enforcePermissions(userSession, "finance manager");
+        return reimbService.getAllReimbsByStatus(3);
+    }
+
+
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResourceCreationResponse generate(@RequestBody NewReimbursementInsertion requestBody, HttpServletRequest req) {
