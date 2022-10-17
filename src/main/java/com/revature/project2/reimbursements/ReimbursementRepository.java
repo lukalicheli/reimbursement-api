@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReimbursementRepository extends JpaRepository<Reimbursement, UUID> {
-//    boolean existsByPending(UUID status_id);
 
-    Optional<Reimbursement> findReimbursementByReimbID(UUID id);
-    List<Reimbursement> findAllReimbursementByStatusID(int statusIDPending);
+    List<Reimbursement> findAllReimbursementByStatusStatusID(int statusIDPending);
 }
