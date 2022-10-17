@@ -41,6 +41,14 @@ Reimbursement Controller: "/reimb"
   -> void
   <- List<ReimbursementResponse>
 
+ -(Get)getAllDeniedReimbs "/AllDenied"
+  -> void
+  <- List<ReimbursementResponse>
+
+ -(Get)getAllApprovedReimbs "/AllApproved"
+  -> void
+  <- List<ReimbursementResponse>
+
  -(Post)generate
   -> @RequestBody NewReimbursementInsertion object
   <- ResourceCreationResponse object
