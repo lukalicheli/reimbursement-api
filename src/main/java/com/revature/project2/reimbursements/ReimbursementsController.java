@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.revature.project2.auth.AuthController;
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.SecurityUtils;
 import com.revature.project2.users.UserResponse;
@@ -34,9 +35,9 @@ public class ReimbursementsController {
     @GetMapping(produces = "application/json")
     public List<ReimbursementResponse> getAllReimbs(HttpServletRequest req) {
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
-        enforceAuthentication(userSession);
-        enforcePermissions(userSession, "finance manager");
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.getAllReimbs();
     }
 

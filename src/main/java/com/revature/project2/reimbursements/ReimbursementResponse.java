@@ -1,9 +1,11 @@
 package com.revature.project2.reimbursements;
 
 
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 import java.util.UUID;
-
+@Component
 public class ReimbursementResponse {
     private UUID reimbID;
     private double amount;
