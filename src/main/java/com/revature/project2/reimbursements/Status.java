@@ -1,6 +1,5 @@
 package com.revature.project2.reimbursements;
 
-import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "ers_reimbursement_statuses")
-@Component
-public class ReimbursementStatus {
+public class Status {
+    
     @Id // indicates a primary key
     @Column(name = "status_id")
     private int statusID;
@@ -19,11 +18,11 @@ public class ReimbursementStatus {
     @Column(name = "status", nullable = false, unique = true)
     private String status;
 
-    public ReimbursementStatus() {
+    public Status() {
         super();
     }
 
-    public ReimbursementStatus(int statusID, String status) {
+    public Status(int statusID, String status) {
         this.statusID = statusID;
         this.status = status;
     }
@@ -36,11 +35,11 @@ public class ReimbursementStatus {
         this.statusID = statusID;
     }
 
-    public String getStatus() {
+    public String getStatusName() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatusName(String status) {
         this.status = status;
     }
 
@@ -48,7 +47,7 @@ public class ReimbursementStatus {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReimbursementStatus that = (ReimbursementStatus) o;
+        Status that = (Status) o;
         return statusID == that.statusID && status.equals(that.status);
     }
 

@@ -1,6 +1,5 @@
 package com.revature.project2.reimbursements;
 
-import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +8,8 @@ import javax.persistence.Table;
 import java.util.Objects;
 @Entity
 @Table(name = "ers_reimbursement_types")
-@Component
-public class ReimbursementType {
+public class Type {
+    
     @Id // indicates a primary key
     @Column(name = "type_id")
     private int typeID;
@@ -18,11 +17,11 @@ public class ReimbursementType {
     @Column(name = "type", nullable = false, unique = true)
     private String type;
 
-    public ReimbursementType() {
+    public Type() {
         super();
     }
 
-    public ReimbursementType(int typeID, String type) {
+    public Type(int typeID, String type) {
         this.typeID = typeID;
         this.type = type;
     }
@@ -35,11 +34,11 @@ public class ReimbursementType {
         this.typeID = typeID;
     }
 
-    public String getType() {
+    public String getTypeName() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setTypeName(String type) {
         this.type = type;
     }
 
@@ -47,7 +46,7 @@ public class ReimbursementType {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReimbursementType that = (ReimbursementType) o;
+        Type that = (Type) o;
         return typeID == that.typeID && type.equals(that.type);
     }
 

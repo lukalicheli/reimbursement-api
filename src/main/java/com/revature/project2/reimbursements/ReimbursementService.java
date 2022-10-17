@@ -31,7 +31,7 @@ public class ReimbursementService {
 
     public List<ReimbursementResponse> getAllPendingReimbs(){
         try{
-            List<Reimbursement> result = reimbRepo.findAllReimbursementByStatusID(1);
+            List<Reimbursement> result = reimbRepo.findAllReimbursementByStatusStatusID(1);
             
             if(result.isEmpty()){
                 throw new ResourceNotFoundException();
@@ -91,24 +91,24 @@ public class ReimbursementService {
         
         try{
             //attempt to find the reimbursement to be approved/denied
-            Reimbursement target = reimbRepo.findReimbursementByReimbID(alterationImport.getReimbursementID()).orElse(null); 
+            Reimbursement target = reimbRepo.findById(alterationImport.getReimbursementID()).orElse(null); 
             
             
             if(target == null){//can not update a reimbursement that is not in the database
                 throw new InvalidRequestException("ERROR: Reimbursement not found, could not alter");
                 
-            }else if (target.getStatusID() != 1){//can only update a reimbursement that is in pending status
+            }else if (target.getStatus().getStatusID() != 1){//can only update a reimbursement that is in pending status
                 throw new InvalidRequestException("ERROR: Reimbursement is not pending approval / rejection");
             
             }else{//reimbursement approved
                 if(alterationImport.getStatusUpdate()){
                     target.setResolverID(UUID.fromString(resolverIDImport));
                     target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
-                    target.setStatusID(3);
+                    target.setStatus(new Status(3, "approved"));
                 }else{//reimbursement denied
                     target.setResolverID(UUID.fromString(resolverIDImport));
                     target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
-                    target.setStatusID(2);
+                    target.setStatus(new Status(2, "denied"));
                 }
                 
                 reimbRepo.save(target);
