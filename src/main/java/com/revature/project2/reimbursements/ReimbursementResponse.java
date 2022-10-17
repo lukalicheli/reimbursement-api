@@ -14,8 +14,8 @@ public class ReimbursementResponse {
     private String description;
     private UUID authorID;
     private UUID resolverID;
-    private int statusID;
-    private int typeID;
+    private String status;
+    private String type;
 
 
     public ReimbursementResponse(){
@@ -30,8 +30,8 @@ public class ReimbursementResponse {
         this.description = reimbImport.getDescription();
         this.authorID = reimbImport.getAuthorID();
         this.resolverID = reimbImport.getResolverID();
-        this.statusID = reimbImport.getStatusID();
-        this.typeID = reimbImport.getTypeID();
+        this.status = reimbImport.getStatus().getStatusName();
+        this.type = reimbImport.getType().getTypeName();
 
     }
 
@@ -91,20 +91,20 @@ public class ReimbursementResponse {
         this.resolverID = resolverID;
     }
 
-    public int getStatusID() {
-        return statusID;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public int getTypeID() {
-        return typeID;
+    public String getType() {
+        return type;
     }
 
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
+    public void setTypeID(String type) {
+        this.type = type;
     }
 
     @Override
@@ -114,12 +114,12 @@ public class ReimbursementResponse {
         ReimbursementResponse that = (ReimbursementResponse) o;
         return Double.compare(that.amount, amount) == 0 && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && 
                 resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && 
-                resolverID.equals(that.resolverID) && Double.compare(that.statusID, statusID) == 0  && Double.compare(that.typeID, typeID) == 0 ;
+                resolverID.equals(that.resolverID) && status.equals(that.status) && type.equals(that.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reimbID, amount, submitted, resolved, description, authorID, resolverID, statusID, typeID);
+        return Objects.hash(reimbID, amount, submitted, resolved, description, authorID, resolverID, status, type);
     }
 
     @Override
@@ -132,8 +132,8 @@ public class ReimbursementResponse {
                 ", description='" + description + '\'' +
                 ", authorID=" + authorID +
                 ", resolverID=" + resolverID +
-                ", statusID=" + statusID +
-                ", typeID=" + typeID +
+                ", statusID=" + status +
+                ", typeID=" + type +
                 '}';
     }
 }

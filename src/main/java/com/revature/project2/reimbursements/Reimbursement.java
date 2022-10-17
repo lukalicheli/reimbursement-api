@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name = "ers_reimbursements")
@@ -33,16 +35,18 @@ public class Reimbursement {
     @Column(name = "resolver_id")
     private UUID resolverID;
 
-    @Column(name = "status_id", nullable = false)
-    private int statusID;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private Status status;
 
-    @Column(name = "type_id", nullable = false)
-    private int typeID;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type type;
 
     public Reimbursement() {
         super();
     }
-    public Reimbursement(UUID reimbID, double amount, String submitted, String resolved, String description, UUID authorID, UUID resolverID, int statusID, int typeID) {
+    public Reimbursement(UUID reimbID, double amount, String submitted, String resolved, String description, UUID authorID, UUID resolverID, Status status, Type type) {
         this.reimbID = reimbID;
         this.amount = amount;
         this.submitted = submitted;
@@ -50,8 +54,8 @@ public class Reimbursement {
         this.description = description;
         this.authorID = authorID;
         this.resolverID = resolverID;
-        this.statusID = statusID;
-        this.typeID = typeID;
+        this.status = status;
+        this.type = type;
     }
 
     public UUID getReimbID() {
@@ -110,20 +114,20 @@ public class Reimbursement {
         this.resolverID = resolverID;
     }
 
-    public int getStatusID() {
-        return statusID;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setStatusID(int statusID) {
-        this.statusID = statusID;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public int getTypeID() {
-        return typeID;
+    public Type getType() {
+        return type;
     }
 
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
@@ -131,12 +135,12 @@ public class Reimbursement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reimbursement that = (Reimbursement) o;
-        return Double.compare(that.amount, amount) == 0 && statusID == that.statusID && typeID == that.typeID && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID);
+        return Double.compare(that.amount, amount) == 0 && status == that.status && type == that.type && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reimbID, amount, submitted, resolved, description, authorID, resolverID, statusID, typeID);
+        return Objects.hash(reimbID, amount, submitted, resolved, description, authorID, resolverID, status, type);
     }
 
     @Override
@@ -149,8 +153,8 @@ public class Reimbursement {
                 ", description='" + description + '\'' +
                 ", authorID=" + authorID +
                 ", resolverID=" + resolverID +
-                ", statusID=" + statusID +
-                ", typeID=" + typeID +
+                ", statusID=" + status +
+                ", typeID=" + type +
                 '}';
     }
 }
