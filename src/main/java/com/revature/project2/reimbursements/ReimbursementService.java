@@ -29,9 +29,9 @@ public class ReimbursementService {
                   .collect(Collectors.toList());
     }//end getAllReimbs method
 
-    public List<ReimbursementResponse> getAllPendingReimbs(){
+    public List<ReimbursementResponse> getAllReimbsByStatus(int type){
         try{
-            List<Reimbursement> result = reimbRepo.findAllReimbursementByStatusStatusID(1);
+            List<Reimbursement> result = reimbRepo.findAllReimbursementByStatusStatusID(type);
             
             if(result.isEmpty()){
                 throw new ResourceNotFoundException();
