@@ -1,5 +1,6 @@
 package com.revature.project2.users;
 
+import com.revature.project2.auth.AuthController;
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.SecurityUtils;
 import org.apache.logging.log4j.LogManager;
@@ -28,9 +29,9 @@ public class UserController {
     @GetMapping(produces = "application/json")
     public List<UserResponse> getAllUsers(HttpServletRequest req) {
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
-        SecurityUtils.enforceAuthentication(userSession);
-        SecurityUtils.enforcePermissions(userSession, "admin");
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         return userService.getAllUsers();
     }
 

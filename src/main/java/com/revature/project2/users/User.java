@@ -1,11 +1,14 @@
 package com.revature.project2.users;
 
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "ers_users")
+@Repository
 public class User {
 
     @Id

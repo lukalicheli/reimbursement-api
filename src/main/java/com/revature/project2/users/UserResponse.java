@@ -1,9 +1,12 @@
 package com.revature.project2.users;
 
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.util.Objects;
 
 // Example of a response DTO
+@Component
 public class UserResponse implements Serializable {
 
     private String id;
@@ -13,7 +16,9 @@ public class UserResponse implements Serializable {
     private String username;
     private String role;
     private boolean isActive;
-
+    public UserResponse() {
+        super();
+    }
     public UserResponse(User subject) {
         this.id = subject.getUserId().toString();
         this.givenName = subject.getGivenName();
