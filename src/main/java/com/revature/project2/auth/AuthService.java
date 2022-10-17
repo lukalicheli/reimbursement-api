@@ -4,8 +4,12 @@ import com.revature.project2.common.exceptions.AuthenticationException;
 import com.revature.project2.common.exceptions.InvalidRequestException;
 import com.revature.project2.users.UserRepository;
 import com.revature.project2.users.UserResponse;
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class AuthService {
@@ -32,8 +36,12 @@ public class AuthService {
         }
 
         return userRepo.findUserByUsernameAndPassword(credentials.getUsername(), credentials.getPassword())
-                      .map(UserResponse::new)
-                      .orElseThrow(AuthenticationException::new);
+                .map(UserResponse::new)
+                .orElseThrow(AuthenticationException::new);
+
 
     }
+
+
 }
+
