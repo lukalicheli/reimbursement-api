@@ -3,30 +3,23 @@ package com.revature.project2.reimbursements;
 import com.revature.project2.common.Request;
 
 import java.util.UUID;
-import javax.persistence.Column;
 
 
 
 public class NewReimbursementInsertion implements Request<Reimbursement>{
         
-    @Column(columnDefinition = "NUMERIC(6,2)", nullable = false)
     private double amount;
     
-    @Column(nullable = false)
     private String submitted;
     
-    @Column(nullable = false)
     private String description;
     
-    @Column(name = "author_id", nullable = false)
     private UUID authorID;
 
-    @Column(name = "status_id", nullable = false)
     private int statusID;
 
-    @Column(name = "type_id", nullable = false)
     private int typeID;
-
+    
     public NewReimbursementInsertion() {
         super();
     }
@@ -96,8 +89,8 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         extractedEntity.setSubmitted(this.submitted);
         extractedEntity.setDescription(this.description);
         extractedEntity.setAuthorID(this.authorID);
-        extractedEntity.setStatusID(1);
-        extractedEntity.setTypeID(this.typeID);
+        extractedEntity.setStatus(new Status(1, "pending"));
+        extractedEntity.setType(new Type(typeID, null));
         
         return extractedEntity;
     }
