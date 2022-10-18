@@ -1,144 +1,222 @@
 package com.revature.project2.auth;
 
-import com.revature.project2.common.exceptions.AuthenticationException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.revature.project2.common.exceptions.InvalidRequestException;
 import com.revature.project2.users.Role;
 import com.revature.project2.users.User;
 import com.revature.project2.users.UserRepository;
 import com.revature.project2.users.UserResponse;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.Disabled;
 
-public class AuthServiceTest {
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-    AuthService sut; // SYSTEM UNDER TEST (the thing being tested)
-    UserRepository mockUserRepo;
+@ExtendWith(MockitoExtension.class)
+class AuthServiceTest {
+    @InjectMocks
+    private AuthService authService;
 
-    @BeforeEach
-    public void setup() {
-        mockUserRepo = Mockito.mock(UserRepository.class);
-        sut = new AuthService(mockUserRepo);
-    }
+    @Mock
+    private UserRepository userRepository;
 
-    @AfterEach
-    public void cleanUp() {
-        Mockito.reset(mockUserRepo); // helps to ensure that and when/then on this mock are reset/invalidated
-    }
-
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
     @Test
-    public void test_authenticate_returnsSuccessfully_givenValidAndKnownCredentials() {
-
-        // Arrange
-        Credentials credentialsStub = new Credentials("valid", "credentials");
-        User userStub = new User(UUID.randomUUID(), "Val", "Id", "valid123@revature.net", "valid", "credentials",true, new Role(1, "role"));
-        when(mockUserRepo.findUserByUsernameAndPassword(anyString(), anyString())).thenReturn(Optional.of(userStub));
-        UserResponse expectedResult = new UserResponse(userStub);
-
-        // Act
-        UserResponse actualResult = sut.authenticate(credentialsStub);
-
-        // Assert
-        assertNotNull(actualResult);
-        assertEquals(expectedResult, actualResult); // PLEASE NOTE: the objects you are comparing need to have a .equals method
-        verify(mockUserRepo, times(1)).findUserByUsernameAndPassword(anyString(), anyString());
+    void testAuthenticate() {
+        Role role = new Role();
+        role.setId(1);
+        role.setName("Name");
+        User user = mock(User.class);
+        when(user.getActive()).thenReturn(true);
+        when(user.getRole()).thenReturn(role);
+        when(user.getEmail()).thenReturn("jane.doe@example.org");
+        when(user.getGivenName()).thenReturn("Given Name");
+        when(user.getSurname()).thenReturn("Doe");
+        when(user.getUsername()).thenReturn("janedoe");
+        when(user.getUserId()).thenReturn(UUID.randomUUID());
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.findUserByUsernameAndPassword((String) any(), (String) any())).thenReturn(ofResult);
+        UserResponse actualAuthenticateResult = authService.authenticate(new Credentials("janedoe", "iloveyou"));
+        assertEquals("jane.doe@example.org", actualAuthenticateResult.getEmail());
+        assertEquals("janedoe", actualAuthenticateResult.getUsername());
+        assertEquals("Doe", actualAuthenticateResult.getSurname());
+        assertEquals("Name", actualAuthenticateResult.getRole());
+        assertTrue(actualAuthenticateResult.getIsActive());
+        assertEquals("Given Name", actualAuthenticateResult.getGivenName());
+        verify(userRepository).findUserByUsernameAndPassword((String) any(), (String) any());
+        verify(user).getActive();
+        verify(user).getRole();
+        verify(user).getEmail();
+        verify(user).getGivenName();
+        verify(user).getSurname();
+        verify(user).getUsername();
+        verify(user).getUserId();
     }
 
-
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
     @Test
-    public void test_authenticate_throwsInvalidRequestException_givenTooShortOfPassword() {
+    @Disabled("TODO: Complete this test")
+    void testAuthenticate2() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   com.revature.project2.common.exceptions.InvalidRequestException: An error occurred
+        //       at com.revature.project2.users.UserResponse.<init>(UserResponse.java:29)
+        //       at java.util.Optional.map(Optional.java:265)
+        //       at com.revature.project2.auth.AuthService.authenticate(AuthService.java:39)
+        //   See https://diff.blue/R013 to resolve this issue.
 
-        // Arrange
-        Credentials credentialsStub = new Credentials("invalid", "creds");
-
-        // Act & Assert
-        assertThrows(InvalidRequestException.class, () -> {
-            sut.authenticate(credentialsStub);
-        });
-
-        verify(mockUserRepo, times(0)).findUserByUsernameAndPassword(anyString(), anyString());
-
-
+        Role role = new Role();
+        role.setId(1);
+        role.setName("Name");
+        User user = mock(User.class);
+        when(user.getActive()).thenThrow(new InvalidRequestException("An error occurred"));
+        when(user.getRole()).thenReturn(role);
+        when(user.getEmail()).thenReturn("jane.doe@example.org");
+        when(user.getGivenName()).thenReturn("Given Name");
+        when(user.getSurname()).thenReturn("Doe");
+        when(user.getUsername()).thenReturn("janedoe");
+        when(user.getUserId()).thenReturn(UUID.randomUUID());
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.findUserByUsernameAndPassword((String) any(), (String) any())).thenReturn(ofResult);
+        authService.authenticate(new Credentials("janedoe", "iloveyou"));
     }
 
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
     @Test
-    public void test_authenticate_throwsInvalidRequestException_givenTooShortOfUsername() {
-
-        // Arrange
-        Credentials credentialsStub = new Credentials("x", "p4$$2W0RD");
-
-        // Act & Assert
-        assertThrows(InvalidRequestException.class, () -> {
-            sut.authenticate(credentialsStub);
-        });
-
-        verify(mockUserRepo, times(0)).findUserByUsernameAndPassword(anyString(), anyString());
-
-
+    void testAuthenticate3() {
+        Role role = new Role();
+        role.setId(1);
+        role.setName("Name");
+        User user = mock(User.class);
+        when(user.getActive()).thenReturn(false);
+        when(user.getRole()).thenReturn(role);
+        when(user.getEmail()).thenReturn("jane.doe@example.org");
+        when(user.getGivenName()).thenReturn("Given Name");
+        when(user.getSurname()).thenReturn("Doe");
+        when(user.getUsername()).thenReturn("janedoe");
+        when(user.getUserId()).thenReturn(UUID.randomUUID());
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.findUserByUsernameAndPassword((String) any(), (String) any())).thenReturn(ofResult);
+        UserResponse actualAuthenticateResult = authService.authenticate(new Credentials("janedoe", "iloveyou"));
+        assertEquals("jane.doe@example.org", actualAuthenticateResult.getEmail());
+        assertEquals("janedoe", actualAuthenticateResult.getUsername());
+        assertEquals("Doe", actualAuthenticateResult.getSurname());
+        assertEquals("Name", actualAuthenticateResult.getRole());
+        assertFalse(actualAuthenticateResult.getIsActive());
+        assertEquals("Given Name", actualAuthenticateResult.getGivenName());
+        verify(userRepository).findUserByUsernameAndPassword((String) any(), (String) any());
+        verify(user).getActive();
+        verify(user).getRole();
+        verify(user).getEmail();
+        verify(user).getGivenName();
+        verify(user).getSurname();
+        verify(user).getUsername();
+        verify(user).getUserId();
     }
 
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
     @Test
-    public void test_authenticate_throwsInvalidRequestException_givenNullCredentials() {
+    @Disabled("TODO: Complete this test")
+    void testAuthenticate4() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   com.revature.project2.common.exceptions.AuthenticationException: Could not find a user account with the provided credentials!
+        //       at java.util.Optional.orElseThrow(Optional.java:408)
+        //       at com.revature.project2.auth.AuthService.authenticate(AuthService.java:40)
+        //   See https://diff.blue/R013 to resolve this issue.
 
-        // Arrange
-        Credentials credentialsStub = null;
-
-        // Act & Assert
-        assertThrows(InvalidRequestException.class, () -> {
-            sut.authenticate(credentialsStub);
-        });
-
-        verify(mockUserRepo, times(0)).findUserByUsernameAndPassword(anyString(), anyString());
-
-
+        when(userRepository.findUserByUsernameAndPassword((String) any(), (String) any())).thenReturn(Optional.empty());
+        authService.authenticate(new Credentials("janedoe", "iloveyou"));
     }
 
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
     @Test
-    public void test_authenticate_throwsAuthenticationException_givenValidUnknownCredentials() {
+    @Disabled("TODO: Complete this test")
+    void testAuthenticate5() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException
+        //       at com.revature.project2.auth.AuthService.authenticate(AuthService.java:30)
+        //   See https://diff.blue/R013 to resolve this issue.
 
-        // Arrange
-        Credentials credentialsStub = new Credentials("unknown", "credentials");
-        when(mockUserRepo.findUserByUsernameAndPassword(anyString(), anyString())).thenReturn(Optional.empty());
-
-        // Act
-        assertThrows(AuthenticationException.class, () -> {
-            sut.authenticate(credentialsStub);
-        });
-
-        // Assert
-        verify(mockUserRepo, times(1)).findUserByUsernameAndPassword(anyString(), anyString());
-
+        Role role = new Role();
+        role.setId(1);
+        role.setName("Name");
+        User user = mock(User.class);
+        when(user.getActive()).thenReturn(true);
+        when(user.getRole()).thenReturn(role);
+        when(user.getEmail()).thenReturn("jane.doe@example.org");
+        when(user.getGivenName()).thenReturn("Given Name");
+        when(user.getSurname()).thenReturn("Doe");
+        when(user.getUsername()).thenReturn("janedoe");
+        when(user.getUserId()).thenReturn(UUID.randomUUID());
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.findUserByUsernameAndPassword((String) any(), (String) any())).thenReturn(ofResult);
+        authService.authenticate(new Credentials(null, "iloveyou"));
     }
+
+
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
     @Test
-    public void test_authController_getUsernameAndPasswordSuccess(){
+    @Disabled("TODO: Complete this test")
+    void testAuthenticate7() {
+        // TODO: Complete this test.
+        //   Reason: R013 No inputs found that don't throw a trivial exception.
+        //   Diffblue Cover tried to run the arrange/act section, but the method under
+        //   test threw
+        //   java.lang.NullPointerException
+        //       at com.revature.project2.auth.AuthService.authenticate(AuthService.java:34)
+        //   See https://diff.blue/R013 to resolve this issue.
 
-        // Arrange
-        Credentials credentialsStub = new Credentials("valid","credentials");
-        when(mockUserRepo.findUserByUsernameAndPassword(anyString(), anyString())).thenReturn(Optional.empty());
-
-        //Act
-        assertThrows(AuthenticationException.class, () -> {
-            sut.authenticate(credentialsStub);
-
-        });
-
-        // Assert
-        verify(mockUserRepo, times(1)).findUserByUsernameAndPassword(anyString(), anyString());
-
-
-
+        Role role = new Role();
+        role.setId(1);
+        role.setName("Name");
+        User user = mock(User.class);
+        when(user.getActive()).thenReturn(true);
+        when(user.getRole()).thenReturn(role);
+        when(user.getEmail()).thenReturn("jane.doe@example.org");
+        when(user.getGivenName()).thenReturn("Given Name");
+        when(user.getSurname()).thenReturn("Doe");
+        when(user.getUsername()).thenReturn("janedoe");
+        when(user.getUserId()).thenReturn(UUID.randomUUID());
+        Optional<User> ofResult = Optional.of(user);
+        when(userRepository.findUserByUsernameAndPassword((String) any(), (String) any())).thenReturn(ofResult);
+        authService.authenticate(new Credentials("janedoe", null));
     }
 
-
-
-    }
-
-
+    /**
+     * Method under test: {@link AuthService#authenticate(Credentials)}
+     */
+}
