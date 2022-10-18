@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Role {
 
     @Id
+    @Column(name = "role_id")
     private int role_id;
 
     @Column(name = "role", nullable = false, unique = true)
@@ -29,6 +30,38 @@ public class Role {
     public Role(String role_id, String role) {
         this.role_id = Integer.parseInt(role_id);
         this.name = role;
+    }
+    
+    public Role(int idImport){
+        this.role_id = idImport;
+        
+        switch(idImport){
+            case 1:
+                this.name = "admin";
+                break;
+            case 2:
+                this.name = "finance manager";
+                break;
+            case 3:
+                this.name = "employee";
+                break;
+        }
+    }
+    
+    public Role(String idImport){
+        this.role_id = Integer.parseInt(idImport);
+        
+        switch(this.role_id){
+            case 1:
+                this.name = "admin";
+                break;
+            case 2:
+                this.name = "finance manager";
+                break;
+            case 3:
+                this.name = "employee";
+                break;
+        }
     }
 
     public int getId() {

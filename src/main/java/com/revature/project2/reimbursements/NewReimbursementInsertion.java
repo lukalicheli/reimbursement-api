@@ -18,19 +18,19 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
 
     private int statusID;
 
-    private int typeID;
+    private Type type;
     
     public NewReimbursementInsertion() {
         super();
     }
 
-    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, int statusID, int typeID) {
+    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, Type typeID ) {
         this.amount = amount;
         this.submitted = submitted;
         this.description = description;
         this.authorID = authorID;
-        this.statusID = statusID;
-        this.typeID = typeID;
+        this.statusID = 1;
+        this.type = typeID;
     }
 
     public double getAmount() {
@@ -73,12 +73,12 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         this.statusID = statusID;
     }
 
-    public int getTypeID() {
-        return typeID;
+    public Type getType() {
+        return type;
     }
 
-    public void setTypeID(int typeID) {
-        this.typeID = typeID;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
@@ -90,7 +90,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         extractedEntity.setDescription(this.description);
         extractedEntity.setAuthorID(this.authorID);
         extractedEntity.setStatus(new Status(1, "pending"));
-        extractedEntity.setType(new Type(typeID, null));
+        extractedEntity.setType(this.type);
         
         return extractedEntity;
     }
