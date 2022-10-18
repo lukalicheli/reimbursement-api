@@ -26,6 +26,25 @@ public class Type {
         this.type = type;
     }
 
+    public Type(int idImport){
+        this.typeID = idImport;
+
+        switch(idImport){
+            case 1:
+                this.type = "lodging";
+                break;
+            case 2:
+                this.type = "travel";
+                break;
+            case 3:
+                this.type = "food";
+                break;
+            case 4:
+                this.type = "other";
+                break;
+        }
+    }
+
     public int getTypeID() {
         return typeID;
     }

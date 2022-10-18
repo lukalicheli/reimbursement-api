@@ -19,18 +19,19 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
     private int statusID;
 
     private Type type;
+
     
     public NewReimbursementInsertion() {
         super();
     }
 
-    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, Type typeID ) {
+    public NewReimbursementInsertion(double amount, String submitted, String description, UUID authorID, int typeID ) {
         this.amount = amount;
         this.submitted = submitted;
         this.description = description;
         this.authorID = authorID;
         this.statusID = 1;
-        this.type = typeID;
+        this.type = new Type(typeID);
     }
 
     public double getAmount() {
