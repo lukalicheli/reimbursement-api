@@ -360,39 +360,6 @@ class ReimbursementServiceTest {
         reimbursementService.generate(null);
     }
 
-    /**
-     * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
-     */
-    @Test
-    void testGenerate3() {
-        Status status = new Status();
-        status.setStatusID(1);
-        status.setStatusName("Status");
-
-        Type type = new Type();
-        type.setTypeID(1);
-        type.setTypeName("Type");
-
-        Reimbursement reimbursement = new Reimbursement();
-        reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
-        reimbursement.setDescription("The characteristics of someone or something");
-        reimbursement.setReimbID(UUID.randomUUID());
-        reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
-        reimbursement.setStatus(status);
-        reimbursement.setSubmitted("Submitted");
-        reimbursement.setType(type);
-        when(reimbursementRepository.save((Reimbursement) any())).thenReturn(reimbursement);
-        NewReimbursementInsertion newReimbursementInsertion = new NewReimbursementInsertion(10.0d,
-                "ERROR: can not register reimbursement amount less than $0.01", "The characteristics of someone or something",
-                UUID.randomUUID(), 1, 1);
-
-        reimbursementService.generate(newReimbursementInsertion);
-        verify(reimbursementRepository).save((Reimbursement) any());
-        assertEquals(1, newReimbursementInsertion.getStatusID());
-    }
-
 
     /**
      * Method under test: {@link ReimbursementService#generate(NewReimbursementInsertion)}
