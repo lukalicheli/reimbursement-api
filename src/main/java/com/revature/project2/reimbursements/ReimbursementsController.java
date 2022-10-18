@@ -44,36 +44,36 @@ public class ReimbursementsController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public ReimbursementResponse getReimbByID(@PathVariable String id, HttpSession userSession) {
         logger.info("A GET request was received by /users/{id} at {}", LocalDateTime.now());
-        enforceAuthentication(userSession);
+        enforceAuthentication(AuthController.userSession);
 //        enforcePermissions(userSession, "employee");
-        enforcePermissions(userSession, "finance manager");
+        enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.getReimbByID(id);
     }
     
     @GetMapping(value = "/AllPending", produces = "application/json")
     public List<ReimbursementResponse> getAllPendingReimbs(HttpServletRequest req){
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
-        enforceAuthentication(userSession);
-        enforcePermissions(userSession, "finance manager");
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.getAllReimbsByStatus(1);
     }
 
     @GetMapping(value = "/AllDenied", produces = "application/json")
     public List<ReimbursementResponse> getAllDeniedReimbs(HttpServletRequest req){
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
-        enforceAuthentication(userSession);
-        enforcePermissions(userSession, "finance manager");
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.getAllReimbsByStatus(2);
     }
 
     @GetMapping(value = "/AllApproved", produces = "application/json")
     public List<ReimbursementResponse> getAllApprovedReimbs(HttpServletRequest req){
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
-        enforceAuthentication(userSession);
-        enforcePermissions(userSession, "finance manager");
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.getAllReimbsByStatus(3);
     }
 
@@ -82,11 +82,11 @@ public class ReimbursementsController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResourceCreationResponse generate(@RequestBody NewReimbursementInsertion requestBody, HttpServletRequest req) {
         logger.info("A POST request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
+
         
-        SecurityUtils.enforceAuthentication(userSession);
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
         
-        UserResponse requester = (UserResponse) userSession.getAttribute("authUser");
+        UserResponse requester = (UserResponse) AuthController.userSession.getAttribute("authUser");
         String authorID = requester.getId();
         requestBody.setAuthorID(UUID.fromString(authorID));
         
@@ -96,14 +96,14 @@ public class ReimbursementsController {
     @PutMapping(consumes = "application/json", produces = "application/json")
     public ReimbursementResponse approveOrDenyReimbByID(@RequestBody ReimbursementApproveOrDenyAlteration importStatement, HttpServletRequest req){
         logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
-        HttpSession userSession = req.getSession(false);
+
         
         //gathering who is logged in 
-        UserResponse requester = (UserResponse) userSession.getAttribute("authUser");
+        UserResponse requester = (UserResponse) AuthController.userSession.getAttribute("authUser");
         String resolver = requester.getId();
         
-        SecurityUtils.enforceAuthentication(userSession);
-        SecurityUtils.enforcePermissions(userSession, "finance manager");
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.updateStatusApproveOrDeny(importStatement, resolver);
     }
 }

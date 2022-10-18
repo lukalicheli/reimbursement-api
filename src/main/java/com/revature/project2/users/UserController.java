@@ -83,8 +83,8 @@ public class UserController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public UserResponse getUserById(@PathVariable String id, HttpSession userSession) {
         logger.info("A GET request was received by /users/{id} at {}", LocalDateTime.now());
-        SecurityUtils.enforceAuthentication(userSession);
-        SecurityUtils.enforcePermissions(userSession, "admin");
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         return userService.getUserById(id);
     }
 
