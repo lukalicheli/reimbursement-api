@@ -29,6 +29,20 @@ public class UserService {
                       .collect(Collectors.toList());
     }//end getAllUsers method
 
+    public List<UserResponse> getAllUsersFilterByActiveStatus(boolean seekingActive){
+        return userRepo.findAllByIsActive(seekingActive)
+                      .stream()
+                      .map(UserResponse::new)
+                      .collect(Collectors.toList());
+    }//end getAllUsersFilterByActiveStatus method
+    
+    public List<UserResponse> getAllUsersFilterByRole(String selectRole){
+        return userRepo.findAllByRoleName(selectRole)
+                      .stream()
+                      .map(UserResponse::new)
+                      .collect(Collectors.toList());
+    }//end getAllUsersFilterByActiveStatus method
+            
     public UserResponse getUserById(String id) {
         try {
             return userRepo.findById(UUID.fromString(id))
@@ -135,7 +149,8 @@ public class UserService {
             
             userRepo.save(target);
             
-            UserResponse result = new UserResponse(target);
+            //UserResponse result = new UserResponse(target);
+            UserResponse result = new UserResponse(userRepo.getById(target.getUserId()));
             return result;
             
         }catch(IllegalArgumentException e){

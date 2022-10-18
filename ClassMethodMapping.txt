@@ -12,6 +12,26 @@ User Controller: "/users"
   -> void
   <- List<UserResponse>
 
+ -(Get)getAllActiveUsers "/active"
+  -> void
+  <- List<UserResponse>
+
+ -(Get)getAllInactiveUsers "/inactive"
+  -> void
+  <- List<UserResponse>
+
+ -(Get)getAllAdminUsers "/admins"
+  -> void
+  <- List<UserResponse>
+
+ -(Get)getAllFinanceManagerUsers "/financeManagers"
+  -> void
+  <- List<UserResponse>
+
+ -(Get)getAllEmployeesUsers "/employees"
+  -> void
+  <- List<UserResponse>
+
  -(Get)getUserById "/{id}"
   -> @PathVariable String
   <- UserResponse object

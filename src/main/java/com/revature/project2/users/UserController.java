@@ -34,6 +34,51 @@ public class UserController {
         SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         return userService.getAllUsers();
     }
+    
+    @GetMapping(value = "/active",produces = "application/json")
+    public List<UserResponse> getAllActiveUsers(HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+        return userService.getAllUsersFilterByActiveStatus(true);
+    }
+    
+    @GetMapping(value = "/inactive",produces = "application/json")
+    public List<UserResponse> getAllInactiveUsers(HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+        return userService.getAllUsersFilterByActiveStatus(false);
+    }
+    
+    @GetMapping(value = "/admins",produces = "application/json")
+    public List<UserResponse> getAllAdminUsers(HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+        return userService.getAllUsersFilterByRole("admin");
+    }
+    
+    @GetMapping(value = "/financeManagers",produces = "application/json")
+    public List<UserResponse> getAllFinanceManagerUsers(HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+        return userService.getAllUsersFilterByRole("finance manager");
+    }
+    
+    @GetMapping(value = "/employees",produces = "application/json")
+    public List<UserResponse> getAllEmployeeUsers(HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        SecurityUtils.enforceAuthentication(AuthController.userSession);
+        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+        return userService.getAllUsersFilterByRole("employee");
+    }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public UserResponse getUserById(@PathVariable String id, HttpSession userSession) {
