@@ -16,6 +16,7 @@ public class UserResponse implements Serializable {
     private String username;
     private String role;
     private boolean isActive;
+    
     public UserResponse() {
         super();
     }
