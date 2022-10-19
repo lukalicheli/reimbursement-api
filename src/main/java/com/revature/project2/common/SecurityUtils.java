@@ -25,5 +25,14 @@ public class SecurityUtils {
             throw new AuthorizationException();
         }
     }
+    
+    public static void enforcePermissions(HttpSession userSession, String expectedRole, String secondRole) {
+        enforceAuthentication(userSession);
+        if (!((UserResponse) userSession.getAttribute("authUser")).getRole().equals(expectedRole) || 
+                !((UserResponse) userSession.getAttribute("authUser")).getRole().equals(secondRole ))//Note: one very long IF statement 
+        {
+            throw new AuthorizationException();
+        }
+    }
 
 }
