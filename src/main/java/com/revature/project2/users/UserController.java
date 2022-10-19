@@ -93,37 +93,53 @@ public class UserController {
         logger.info("A POST request was received by /users at {}", LocalDateTime.now());
 
         //confirming that a user is logged in and that they have "admin" credentials 
-        SecurityUtils.enforceAuthentication(AuthController.userSession);
-        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+//        SecurityUtils.enforceAuthentication(AuthController.userSession);
+//        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
         return userService.register(requestBody);
     }
 
-    @PutMapping(value = "/{username}Activation", consumes = "application/json", produces = "application/json")
-    public UserResponse updateUserActivationByUsername(@PathVariable String username, @RequestBody boolean newActiveStatus, HttpServletRequest req) {
+    @PutMapping(consumes = "application/json")
+    public void updateUser(@RequestBody UpdateUserBody updateUserBody, HttpServletRequest req) {
+
         logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
-        
-        //confirming that a user is logged in and that they have "admin" credentials 
 
         SecurityUtils.enforceAuthentication(AuthController.userSession);
         SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
-        
-        if(newActiveStatus == true){
-            return userService.activateUser(username);
-        }else{
-            return userService.deactivateUser(username);
-        }
-    }
-    
-    @PutMapping(value = "/{username}Role", consumes = "application/json", produces = "application/json")
-    public UserResponse updateUserRoleByUsername(@PathVariable String username, @RequestBody Role role,  HttpServletRequest req){
-        logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
-        
-        //confirming that a user is logged in and that they have "admin" credentials 
 
-        SecurityUtils.enforceAuthentication(AuthController.userSession);
-        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
-        
-        
-        return userService.updateUserRole(username, role);
+        userService.updateUser(updateUserBody);
+
     }
+
+
+
+//    @PutMapping(value = "/{username}Activation", consumes = "application/json", produces = "application/json")
+//    public UserResponse updateUserActivationByUsername(@PathVariable String username, @RequestBody boolean newActiveStatus, HttpServletRequest req) {
+//        logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
+//
+//        //confirming that a user is logged in and that they have "admin" credentials
+//
+//        SecurityUtils.enforceAuthentication(AuthController.userSession);
+//        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+//
+//        if(newActiveStatus == true){
+//            return userService.activateUser(username);
+//        }else{
+//            return userService.deactivateUser(username);
+//        }
+//    }
+//
+//    @PutMapping(value = "/{username}Role", consumes = "application/json", produces = "application/json")
+//    public UserResponse updateUserRoleByUsername(@PathVariable String username, @RequestBody Role role,  HttpServletRequest req){
+//        logger.info("A PUT request was received by /users at {}", LocalDateTime.now());
+//
+//        //confirming that a user is logged in and that they have "admin" credentials
+//
+//        SecurityUtils.enforceAuthentication(AuthController.userSession);
+//        SecurityUtils.enforcePermissions(AuthController.userSession, "admin");
+//
+//
+//        return userService.updateUserRole(username, role);
+//    }
+
+
 }

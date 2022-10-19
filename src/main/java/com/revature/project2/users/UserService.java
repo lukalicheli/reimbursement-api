@@ -16,9 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepo;
+    private final RoleRepo roleRepo;
+
 
     @Autowired
-    public UserService(UserRepository userRepo) {
+    public UserService(UserRepository userRepo, RoleRepo roleRepo) {
+        this.roleRepo = roleRepo;
         this.userRepo = userRepo;
     }
 
@@ -101,32 +104,32 @@ public class UserService {
 
     }//end register method
     
-    @Transactional
-    public UserResponse activateUser(String usernameImport){
-        try{    
-            userRepo.activateUser(usernameImport);
-            
-            return new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
-        }catch (IllegalArgumentException e) {
-            throw new InvalidRequestException("A valid uuid must be provided!");
-        }
-        
-    }//end activateUser method
-    
-    @Transactional
-    public UserResponse deactivateUser(String usernameImport){
-        try{    
-            userRepo.deactivateUser(usernameImport);
-            
-            
-            UserResponse result = new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
-            
-            return result;
-        }catch (IllegalArgumentException e) {
-            throw new InvalidRequestException("A valid uuid must be provided!");
-        }
-        
-    }//end deactivateUser method
+//    @Transactional
+//    public UserResponse activateUser(String usernameImport){
+//        try{
+//            userRepo.activateUser(usernameImport);
+//
+//            return new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
+//        }catch (IllegalArgumentException e) {
+//            throw new InvalidRequestException("A valid uuid must be provided!");
+//        }
+//
+//    }//end activateUser method
+//
+//    @Transactional
+//    public UserResponse deactivateUser(String usernameImport){
+//        try{
+//            userRepo.deactivateUser(usernameImport);
+//
+//
+//            UserResponse result = new UserResponse(userRepo.findByUsername(usernameImport).orElse(null));
+//
+//            return result;
+//        }catch (IllegalArgumentException e) {
+//            throw new InvalidRequestException("A valid uuid must be provided!");
+//        }
+//
+//    }//end deactivateUser method
     
     public UserResponse updateUserRole(String usernameImport, Role roleImport){
         //validation that neither import value is null
@@ -159,6 +162,100 @@ public class UserService {
         
 
     }//end updateUserRole method
+
+    @Transactional
+    public void updateUser(UpdateUserBody updateRequestBody) {
+
+        System.out.println("\n" + updateRequestBody + "\n");
+
+        User user = userRepo.findByUsername(updateRequestBody.getUsername()).orElseThrow(ResourceNotFoundException::new);
+
+//        if (updateRequestBody.getUsername() != "") {
+//
+//            if (userRepo.existsByUsername(updateRequestBody.getUsername())) {
+//                throw new RuntimeException("Provided username is already taken");
+//            }
+//            if (updateRequestBody.getUsername().length() < 4) {
+//                throw new InvalidRequestException("Username must be more than 4 characters");
+//            }
+//
+//            user.setUsername(updateRequestBody.getUsername());
+
+      //  }
+        if (updateRequestBody.getEmail() != "") {
+
+            if (!userRepo.existsByEmail(updateRequestBody.getEmail())) {
+                user.setEmail(updateRequestBody.getEmail());
+            } else {
+                throw new RuntimeException("Provided Email is already taken");
+            }
+        }
+
+        if (updateRequestBody.getPassword() != "") {
+
+            if (updateRequestBody.getPassword().length() < 8) {
+                throw new InvalidRequestException("A password with at least 8 characters must be provided!");
+            } else {
+                user.setPassword(updateRequestBody.getPassword());
+            }
+        }
+
+        if (updateRequestBody.getGivenName() != "") {
+
+            if (updateRequestBody.getGivenName().length() == 0) {
+                throw new InvalidRequestException("Must provide first name");
+            } else {
+                user.setGivenName(updateRequestBody.getGivenName());
+            }
+        }
+
+        if (updateRequestBody.getSurname() != "") {
+            if (updateRequestBody.getGivenName().length() == 0) {
+                throw new InvalidRequestException("Must provide last name");
+            } else {
+                user.setSurname(updateRequestBody.getSurname());
+            }
+        }
+
+        if (updateRequestBody.getIsActive() != "") {
+            if (String.valueOf(updateRequestBody.getIsActive()).equals("true")
+                    || String.valueOf(updateRequestBody.getIsActive()).equals("false")) {
+                user.setActive(Boolean.parseBoolean(updateRequestBody.getIsActive()));
+            } else {
+                throw new InvalidRequestException();
+            }
+        }
+
+        if (updateRequestBody.getRoleName() != "") {
+
+            if (updateRequestBody.getRoleName().equals("admin")
+                    || updateRequestBody.getRoleName().equals("manager")
+                    || updateRequestBody.getRoleName().equals("employee")) {
+
+                Integer roleId = null;
+
+                if (updateRequestBody.getRoleName().equals("admin")) {
+                    roleId = 1;
+                }
+
+                if (updateRequestBody.getRoleName().equals("manager")) {
+                    roleId = 2;
+                }
+
+                if (updateRequestBody.getRoleName().equals("employee")) {
+                    roleId = 3;
+                }
+
+                Role role = roleRepo.findById(roleId)
+                        .orElseThrow(ResourceNotFoundException::new);
+                user.setRole(role);
+
+            } else {
+                throw new InvalidRequestException("invalid role name provided");
+            }
+        }
+
+    }
 
     
 }//end UserService class
