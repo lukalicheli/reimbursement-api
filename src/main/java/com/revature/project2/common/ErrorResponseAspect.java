@@ -66,4 +66,12 @@ public class ErrorResponseAspect {
         return new ErrorResponse(500, "An unexpected exception occurred. Devs, please check logs.");
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResponse handleOtherExceptions(RuntimeException e) {
+        e.printStackTrace();
+        logger.error("A unhandled exception was thrown at {}, details: {}", LocalDateTime.now(), e.getMessage());
+        return new ErrorResponse(409, "The provided data has already been created.");
+    }
+
 }

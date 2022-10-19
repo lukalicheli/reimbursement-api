@@ -22,13 +22,13 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 //    @Query(nativeQuery = true, value = "SELECT * FROM app_users WHERE username = :1 AND password :2")
     Optional<User> findUserByUsernameAndPassword(String username, String password);
     
-    @Modifying
-    @Query(value = "update ers_users set is_active = true where username = :insertUsername", nativeQuery = true)
-    int activateUser(@Param("insertUsername") String username);
-    
-    @Modifying
-    @Query(value = "update ers_users set is_active = false where username = :insertUsername", nativeQuery = true)
-    int deactivateUser(@Param("insertUsername") String username);
+//    @Modifying
+//    @Query(value = "update ers_users set is_active = true where username = :insertUsername", nativeQuery = true)
+//    int activateUser(@Param("insertUsername") String username);
+//
+//    @Modifying
+//    @Query(value = "update ers_users set is_active = false where username = :insertUsername", nativeQuery = true)
+//    int deactivateUser(@Param("insertUsername") String username);
 
 
 }
