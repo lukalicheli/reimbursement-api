@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -30,19 +32,19 @@ public class Reimbursement {
     @Column(nullable = false)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "resolver_id")
     private User resolver;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Status.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "status_id")
     private Status status;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Type.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "type_id")
     private Type type;
 

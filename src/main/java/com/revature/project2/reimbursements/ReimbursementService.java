@@ -71,8 +71,7 @@ public class ReimbursementService {
     }//end getReimbByID method
     
     public ResourceCreationResponse generate(NewReimbursementInsertion reimbImport) {
-
-
+        
         reimbImport.setSubmitted(Timestamp.valueOf(LocalDateTime.now()).toString());
         reimbImport.setStatusID(1);
 
@@ -86,7 +85,10 @@ public class ReimbursementService {
             throw new InvalidRequestException("ERROR: reimbursement description must be provided");
         }
 
+        
         Reimbursement reimbToPersist = reimbImport.extractEntity();
+        reimbToPersist.setAuthor(userRepo.getById(reimbImport.getAuthorID()));
+        
         reimbRepo.save(reimbToPersist);
         return new ResourceCreationResponse(reimbToPersist.getReimbID().toString());
    }//end generate method

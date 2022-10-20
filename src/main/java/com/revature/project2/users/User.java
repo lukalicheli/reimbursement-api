@@ -33,7 +33,7 @@ public class User {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(targetEntity = Role.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role;
 
