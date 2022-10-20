@@ -1,5 +1,6 @@
 package com.revature.project2.auth;
 
+import com.revature.project2.common.exceptions.AuthorizationException;
 import com.revature.project2.users.UserResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,14 +29,21 @@ public class AuthController {
     @PostMapping(produces = "application/json", consumes = "application/json")
     public UserResponse authenticate(@RequestBody Credentials credentials, HttpServletRequest req) {
 
-        UserResponse authUser = authService.authenticate(credentials);
+        try{
+            UserResponse authUser = authService.authenticate(credentials);
 
-        logger.info("Establishing user session for user: {}", authUser.getUsername());
-        userSession = req.getSession();
-        userSession.setAttribute("authUser", authUser);
+            if(authUser.getIsActive() == false){
+                throw new AuthorizationException("User credentials are not active, contact your system admin for activation");
+            }
 
-        return authUser;
+            logger.info("Establishing user session for user: {}", authUser.getUsername());
+            userSession = req.getSession();
+            userSession.setAttribute("authUser", authUser);
 
+            return authUser;
+        }catch(Exception e){
+            throw new AuthorizationException();
+        }
     }
 
     @DeleteMapping
