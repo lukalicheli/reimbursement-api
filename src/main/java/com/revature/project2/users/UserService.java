@@ -229,7 +229,7 @@ public class UserService {
         if (updateRequestBody.getRoleName() != "") {
 
             if (updateRequestBody.getRoleName().equals("admin")
-                    || updateRequestBody.getRoleName().equals("manager")
+                    || updateRequestBody.getRoleName().equals("finance manager")
                     || updateRequestBody.getRoleName().equals("employee")) {
 
                 Integer roleId = null;
@@ -238,7 +238,7 @@ public class UserService {
                     roleId = 1;
                 }
 
-                if (updateRequestBody.getRoleName().equals("manager")) {
+                if (updateRequestBody.getRoleName().equals("finance manager")) {
                     roleId = 2;
                 }
 

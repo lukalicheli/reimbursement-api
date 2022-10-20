@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.exceptions.InvalidRequestException;
 import com.revature.project2.common.exceptions.ResourceNotFoundException;
+import com.revature.project2.users.User;
+import com.revature.project2.users.UserRepository;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReimbursementService {
     private final ReimbursementRepository reimbRepo;
+    private final UserRepository userRepo;
 
     @Autowired
-    public ReimbursementService(ReimbursementRepository reimbRepo) {
+    public ReimbursementService(ReimbursementRepository reimbRepo, UserRepository userRepo) {
         this.reimbRepo = reimbRepo;
+        this.userRepo = userRepo;
     }
     
     public List<ReimbursementResponse> getAllReimbs(){
@@ -47,7 +51,14 @@ public class ReimbursementService {
         }catch(Exception e){
             throw new InvalidRequestException();
         }
-    }//end getAllPendingReimbs method
+    }//end getAllReimbsByStatus method
+    
+    public List<ReimbursementResponse> getAllOwnedReimbs(String ownerUsername){
+        return reimbRepo.findAllReimbursementByAuthorUsername(ownerUsername)
+                  .stream()
+                  .map(ReimbursementResponse::new)
+                  .collect(Collectors.toList());
+    }//end getAllOwnedReimbs method
     
     public ReimbursementResponse getReimbByID(String id) {
         try {
@@ -102,11 +113,11 @@ public class ReimbursementService {
             
             }else{//reimbursement approved
                 if(alterationImport.getStatusUpdate()){
-                    target.setResolverID(UUID.fromString(resolverIDImport));
+                    target.setResolver(new User (UUID.fromString(resolverIDImport)));
                     target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
                     target.setStatus(new Status(3, "approved"));
                 }else{//reimbursement denied
-                    target.setResolverID(UUID.fromString(resolverIDImport));
+                    target.setResolver(new User (UUID.fromString(resolverIDImport)));
                     target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
                     target.setStatus(new Status(2, "denied"));
                 }

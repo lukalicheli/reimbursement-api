@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface ReimbursementRepository extends JpaRepository<Reimbursement, UUID> {
 
     List<Reimbursement> findAllReimbursementByStatusStatusID(int statusIDPending);
+    List<Reimbursement> findAllReimbursementByAuthorUsername(String author);
 }

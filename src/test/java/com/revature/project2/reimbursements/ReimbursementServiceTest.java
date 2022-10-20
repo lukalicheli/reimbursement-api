@@ -60,11 +60,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -91,11 +91,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -110,11 +110,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement1 = new Reimbursement();
         reimbursement1.setAmount(10.0d);
-        reimbursement1.setAuthorID(UUID.randomUUID());
+        reimbursement1.setAuthor(UUID.randomUUID());
         reimbursement1.setDescription("The characteristics of someone or something");
         reimbursement1.setReimbID(UUID.randomUUID());
         reimbursement1.setResolved("Resolved");
-        reimbursement1.setResolverID(UUID.randomUUID());
+        reimbursement1.setResolver(UUID.randomUUID());
         reimbursement1.setStatus(status1);
         reimbursement1.setSubmitted("Submitted");
         reimbursement1.setType(type1);
@@ -177,9 +177,9 @@ class ReimbursementServiceTest {
         when(reimbursement.getDescription()).thenReturn("The characteristics of someone or something");
         when(reimbursement.getResolved()).thenReturn("Resolved");
         when(reimbursement.getSubmitted()).thenReturn("Submitted");
-        when(reimbursement.getAuthorID()).thenReturn(UUID.randomUUID());
+        when(reimbursement.getAuthor()).thenReturn(UUID.randomUUID());
         when(reimbursement.getReimbID()).thenReturn(UUID.randomUUID());
-        when(reimbursement.getResolverID()).thenReturn(UUID.randomUUID());
+        when(reimbursement.getResolver()).thenReturn(UUID.randomUUID());
         doNothing().when(reimbursement).setAmount(anyDouble());
         doNothing().when(reimbursement).setAuthorID((UUID) any());
         doNothing().when(reimbursement).setDescription((String) any());
@@ -190,11 +190,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement).setSubmitted((String) any());
         doNothing().when(reimbursement).setType((Type) any());
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -230,11 +230,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("No resource found using the provided search parameters.");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("No resource found using the provided search parameters.");
         reimbursement.setType(type);
@@ -280,9 +280,9 @@ class ReimbursementServiceTest {
         when(reimbursement.getDescription()).thenReturn("The characteristics of someone or something");
         when(reimbursement.getResolved()).thenReturn("Resolved");
         when(reimbursement.getSubmitted()).thenReturn("Submitted");
-        when(reimbursement.getAuthorID()).thenReturn(UUID.randomUUID());
+        when(reimbursement.getAuthor()).thenReturn(UUID.randomUUID());
         when(reimbursement.getReimbID()).thenReturn(UUID.randomUUID());
-        when(reimbursement.getResolverID()).thenReturn(UUID.randomUUID());
+        when(reimbursement.getResolver()).thenReturn(UUID.randomUUID());
         doNothing().when(reimbursement).setAmount(anyDouble());
         doNothing().when(reimbursement).setAuthorID((UUID) any());
         doNothing().when(reimbursement).setDescription((String) any());
@@ -293,11 +293,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement).setSubmitted((String) any());
         doNothing().when(reimbursement).setType((Type) any());
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("No resource found using the provided search parameters.");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("No resource found using the provided search parameters.");
         reimbursement.setType(type);
@@ -376,11 +376,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -396,11 +396,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement1 = new Reimbursement();
         reimbursement1.setAmount(10.0d);
-        reimbursement1.setAuthorID(UUID.randomUUID());
+        reimbursement1.setAuthor(UUID.randomUUID());
         reimbursement1.setDescription("The characteristics of someone or something");
         reimbursement1.setReimbID(UUID.randomUUID());
         reimbursement1.setResolved("Resolved");
-        reimbursement1.setResolverID(UUID.randomUUID());
+        reimbursement1.setResolver(UUID.randomUUID());
         reimbursement1.setStatus(status1);
         reimbursement1.setSubmitted("Submitted");
         reimbursement1.setType(type1);
@@ -444,11 +444,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -473,11 +473,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement1).setSubmitted((String) any());
         doNothing().when(reimbursement1).setType((Type) any());
         reimbursement1.setAmount(10.0d);
-        reimbursement1.setAuthorID(UUID.randomUUID());
+        reimbursement1.setAuthor(UUID.randomUUID());
         reimbursement1.setDescription("The characteristics of someone or something");
         reimbursement1.setReimbID(UUID.randomUUID());
         reimbursement1.setResolved("Resolved");
-        reimbursement1.setResolverID(UUID.randomUUID());
+        reimbursement1.setResolver(UUID.randomUUID());
         reimbursement1.setStatus(status1);
         reimbursement1.setSubmitted("Submitted");
         reimbursement1.setType(type1);
@@ -505,11 +505,11 @@ class ReimbursementServiceTest {
 
         Reimbursement reimbursement = new Reimbursement();
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -550,11 +550,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement).setSubmitted((String) any());
         doNothing().when(reimbursement).setType((Type) any());
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -613,11 +613,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement).setSubmitted((String) any());
         doNothing().when(reimbursement).setType((Type) any());
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -687,11 +687,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement).setSubmitted((String) any());
         doNothing().when(reimbursement).setType((Type) any());
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);
@@ -742,11 +742,11 @@ class ReimbursementServiceTest {
         doNothing().when(reimbursement).setSubmitted((String) any());
         doNothing().when(reimbursement).setType((Type) any());
         reimbursement.setAmount(10.0d);
-        reimbursement.setAuthorID(UUID.randomUUID());
+        reimbursement.setAuthor(UUID.randomUUID());
         reimbursement.setDescription("The characteristics of someone or something");
         reimbursement.setReimbID(UUID.randomUUID());
         reimbursement.setResolved("Resolved");
-        reimbursement.setResolverID(UUID.randomUUID());
+        reimbursement.setResolver(UUID.randomUUID());
         reimbursement.setStatus(status);
         reimbursement.setSubmitted("Submitted");
         reimbursement.setType(type);

@@ -12,8 +12,8 @@ public class ReimbursementResponse {
     private String submitted;
     private String resolved;
     private String description;
-    private UUID authorID;
-    private UUID resolverID;
+    private String authorID;
+    private String resolverID;
     private String status;
     private String type;
 
@@ -23,13 +23,20 @@ public class ReimbursementResponse {
     }
     
     public ReimbursementResponse(Reimbursement reimbImport) {
+               
         this.reimbID = reimbImport.getReimbID();
         this.amount = reimbImport.getAmount();
         this.submitted = reimbImport.getSubmitted();
         this.resolved = reimbImport.getResolved();
         this.description = reimbImport.getDescription();
-        this.authorID = reimbImport.getAuthorID();
-        this.resolverID = reimbImport.getResolverID();
+        this.authorID = reimbImport.getAuthor().getUserId().toString();
+        
+        if(reimbImport.getResolver() != null){
+            this.resolverID = reimbImport.getResolver().getUserId().toString();
+        }else{
+            this.resolverID = "";
+        }
+        
         this.status = reimbImport.getStatus().getStatusName();
         this.type = reimbImport.getType().getTypeName();
 
@@ -75,19 +82,19 @@ public class ReimbursementResponse {
         this.description = description;
     }
 
-    public UUID getAuthorID() {
+    public String getAuthorID() {
         return authorID;
     }
 
-    public void setAuthorID(UUID authorID) {
+    public void setAuthorID(String authorID) {
         this.authorID = authorID;
     }
 
-    public UUID getResolverID() {
+    public String getResolverID() {
         return resolverID;
     }
 
-    public void setResolverID(UUID resolverID) {
+    public void setResolverID(String resolverID) {
         this.resolverID = resolverID;
     }
 
