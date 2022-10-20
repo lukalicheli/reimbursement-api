@@ -2,6 +2,7 @@ package com.revature.project2.reimbursements;
 
 
 import com.revature.project2.users.User;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -51,6 +52,7 @@ public class Reimbursement {
     public Reimbursement() {
         super();
     }
+
     public Reimbursement(UUID reimbID, double amount, String submitted, String resolved, String description, User author, User resolver, Status status, Type type) {
         this.reimbID = reimbID;
         this.amount = amount;
