@@ -122,11 +122,11 @@ public class ReimbursementService {
             
             }else{//reimbursement approved
                 if(alterationImport.getStatusUpdate()){
-                    target.setResolver(new User (UUID.fromString(resolverIDImport)));
+                    target.setResolver(userRepo.getById((target.getAuthor().getUserId())));
                     target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
                     target.setStatus(new Status(3, "approved"));
                 }else{//reimbursement denied
-                    target.setResolver(new User (UUID.fromString(resolverIDImport)));
+                    target.setResolver(userRepo.getById((target.getAuthor().getUserId())));
                     target.setResolved(Timestamp.valueOf(LocalDateTime.now()).toString());
                     target.setStatus(new Status(2, "denied"));
                 }
