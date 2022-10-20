@@ -45,7 +45,6 @@ public class ReimbursementsController {
     public ReimbursementResponse getReimbByID(@PathVariable String id, HttpSession userSession) {
         logger.info("A GET request was received by /users/{id} at {}", LocalDateTime.now());
         enforceAuthentication(AuthController.userSession);
-//        enforcePermissions(userSession, "employee");
         enforcePermissions(AuthController.userSession, "finance manager");
         return reimbService.getReimbByID(id);
     }
@@ -77,7 +76,15 @@ public class ReimbursementsController {
         return reimbService.getAllReimbsByStatus(3);
     }
 
+    @GetMapping(value = "/owned/{username}", produces = "application/json")
+    public List<ReimbursementResponse> getAllOwnedReimbs(@PathVariable String username, HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
 
+        enforceAuthentication(AuthController.userSession);
+        //enforcePermissions(AuthController.userSession, "finance manager");
+        
+        return reimbService.getAllOwnedReimbs(username);
+    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResourceCreationResponse generate(@RequestBody NewReimbursementInsertion requestBody, HttpServletRequest req) {

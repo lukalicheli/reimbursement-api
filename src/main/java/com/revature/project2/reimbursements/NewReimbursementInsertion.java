@@ -1,6 +1,7 @@
 package com.revature.project2.reimbursements;
 
 import com.revature.project2.common.Request;
+import com.revature.project2.users.User;
 
 import java.util.UUID;
 
@@ -89,7 +90,7 @@ public class NewReimbursementInsertion implements Request<Reimbursement>{
         extractedEntity.setAmount(this.amount);
         extractedEntity.setSubmitted(this.submitted);
         extractedEntity.setDescription(this.description);
-        extractedEntity.setAuthorID(this.authorID);
+        extractedEntity.setAuthor(new User(authorID));
         extractedEntity.setStatus(new Status(1, "pending"));
         extractedEntity.setType(this.type);
         

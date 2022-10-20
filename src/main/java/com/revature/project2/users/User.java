@@ -51,6 +51,17 @@ public class User {
         this.isActive = isActive;
         this.role = role;
     }
+    
+    public User(UUID userID){
+        this.userId = userId;
+        this.username = "placeholder";
+        this.email = "placeholder";
+        this.password = "placeholder";
+        this.givenName = "placeholder";
+        this.surname = "placeholder";
+        this.isActive = false;
+        this.role = null;
+    }
 
     public UUID getUserId() {
         return userId;

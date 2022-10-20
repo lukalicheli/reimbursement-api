@@ -1,6 +1,7 @@
 package com.revature.project2.reimbursements;
 
 
+import com.revature.project2.users.User;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,11 +30,13 @@ public class Reimbursement {
     @Column(nullable = false)
     private String description;
 
-    @Column(name = "author_id", nullable = false)
-    private UUID authorID;
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
-    @Column(name = "resolver_id")
-    private UUID resolverID;
+    @ManyToOne
+    @JoinColumn(name = "resolver_id")
+    private User resolver;
 
     @ManyToOne
     @JoinColumn(name = "status_id")
@@ -46,14 +49,14 @@ public class Reimbursement {
     public Reimbursement() {
         super();
     }
-    public Reimbursement(UUID reimbID, double amount, String submitted, String resolved, String description, UUID authorID, UUID resolverID, Status status, Type type) {
+    public Reimbursement(UUID reimbID, double amount, String submitted, String resolved, String description, User author, User resolver, Status status, Type type) {
         this.reimbID = reimbID;
         this.amount = amount;
         this.submitted = submitted;
         this.resolved = resolved;
         this.description = description;
-        this.authorID = authorID;
-        this.resolverID = resolverID;
+        this.author = author;
+        this.resolver = resolver;
         this.status = status;
         this.type = type;
     }
@@ -98,20 +101,20 @@ public class Reimbursement {
         this.description = description;
     }
 
-    public UUID getAuthorID() {
-        return authorID;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorID(UUID authorID) {
-        this.authorID = authorID;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
-    public UUID getResolverID() {
-        return resolverID;
+    public User getResolver() {
+        return resolver;
     }
 
-    public void setResolverID(UUID resolverID) {
-        this.resolverID = resolverID;
+    public void setResolver(User resolver) {
+        this.resolver = resolver;
     }
 
     public Status getStatus() {
@@ -135,12 +138,12 @@ public class Reimbursement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reimbursement that = (Reimbursement) o;
-        return Double.compare(that.amount, amount) == 0 && status == that.status && type == that.type && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && authorID.equals(that.authorID) && resolverID.equals(that.resolverID);
+        return Double.compare(that.amount, amount) == 0 && status == that.status && type == that.type && reimbID.equals(that.reimbID) && submitted.equals(that.submitted) && resolved.equals(that.resolved) && description.equals(that.description) && author.equals(that.author) && resolver.equals(that.resolver);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reimbID, amount, submitted, resolved, description, authorID, resolverID, status, type);
+        return Objects.hash(reimbID, amount, submitted, resolved, description, author, resolver, status, type);
     }
 
     @Override
@@ -151,8 +154,8 @@ public class Reimbursement {
                 ", submitted='" + submitted + '\'' +
                 ", resolved='" + resolved + '\'' +
                 ", description='" + description + '\'' +
-                ", authorID=" + authorID +
-                ", resolverID=" + resolverID +
+                ", authorID=" + author +
+                ", resolverID=" + resolver +
                 ", statusID=" + status +
                 ", typeID=" + type +
                 '}';
