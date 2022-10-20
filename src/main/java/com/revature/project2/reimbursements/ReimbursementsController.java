@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.revature.project2.auth.AuthController;
-import static com.revature.project2.auth.AuthController.userSession;
 import com.revature.project2.common.ResourceCreationResponse;
 import com.revature.project2.common.SecurityUtils;
 import com.revature.project2.users.UserResponse;
@@ -82,15 +81,39 @@ public class ReimbursementsController {
         logger.info("A GET request was received by /users at {}", LocalDateTime.now());
 
         enforceAuthentication(AuthController.userSession);
-//        UserResponse requester = (UserResponse) AuthController.userSession.getAttribute("authUser");
-//        
-        System.out.println(username);
-//        System.out.println(requester.getUsername());
-        System.out.println(((UserResponse) userSession.getAttribute("authUser")).getUsername());
-
         enforcePermissions(AuthController.userSession, "finance manager", username);
         
         return reimbService.getAllOwnedReimbs(username);
+    }
+    
+    @GetMapping(value = "/ownedPending/{username}", produces = "application/json")
+    public List<ReimbursementResponse> getAllOwnedPendingReimbs(@PathVariable String username, HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager", username);
+        
+        return reimbService.getAllOwnedReimbsByApprovalStatus(username, 1);
+    }
+    
+    @GetMapping(value = "/ownedDenied/{username}", produces = "application/json")
+    public List<ReimbursementResponse> getAllOwnedDeniedReimbs(@PathVariable String username, HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager", username);
+        
+        return reimbService.getAllOwnedReimbsByApprovalStatus(username, 2);
+    }
+    
+    @GetMapping(value = "/ownedApproved/{username}", produces = "application/json")
+    public List<ReimbursementResponse> getAllOwnedApprovedReimbs(@PathVariable String username, HttpServletRequest req) {
+        logger.info("A GET request was received by /users at {}", LocalDateTime.now());
+
+        enforceAuthentication(AuthController.userSession);
+        enforcePermissions(AuthController.userSession, "finance manager", username);
+        
+        return reimbService.getAllOwnedReimbsByApprovalStatus(username, 3);
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

@@ -60,6 +60,13 @@ public class ReimbursementService {
                   .collect(Collectors.toList());
     }//end getAllOwnedReimbs method
     
+    public List<ReimbursementResponse> getAllOwnedReimbsByApprovalStatus(String ownerUsername, int type){
+        return reimbRepo.findAllReimbursementByAuthorUsernameAndStatusStatusID(ownerUsername, type)
+                  .stream()
+                  .map(ReimbursementResponse::new)
+                  .collect(Collectors.toList());
+    }//end getAllOwnedReimbs method
+    
     public ReimbursementResponse getReimbByID(String id) {
         try {
             return reimbRepo.findById(UUID.fromString(id))

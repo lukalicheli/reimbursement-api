@@ -40,13 +40,9 @@ User Controller: "/users"
   -> @RequestBody NewUserRequest object
   <- ResourceCreationResponse object
 
- -(Put)updateUserActivationByUsername "/{username}Activation"
-  -> @PathVariable String, @RequestBody boolean
-  <- UserResponse object
-
- -(Put)updateUserRoleByUsername "/{username}Role"
-  -> @PathVariable String, @RequestBody Role object
-  <- UserResponse object
+ -(Put)updateUser
+  -> @RequestBody UpdateUserBody object
+  <- void
 
 Reimbursement Controller: "/reimb"
  -(Get)getAllReimbs
@@ -67,6 +63,22 @@ Reimbursement Controller: "/reimb"
 
  -(Get)getAllApprovedReimbs "/AllApproved"
   -> void
+  <- List<ReimbursementResponse>
+
+ -(Get)getAllOwnedReimbs "/owned/{username}"
+  -> @PathVariable String 
+  <- List<ReimbursementResponse>
+
+ -(Get)getAllOwnedPendingReimbs "/ownedPending/{username}"
+  -> @PathVariable String 
+  <- List<ReimbursementResponse>
+
+ -(Get)getAllOwnedDeniedReimbs "/ownedDenied/{username}"
+  -> @PathVariable String 
+  <- List<ReimbursementResponse>
+
+ -(Get)getAllOwnedApprovedReimbs "/ownedApproved/{username}"
+  -> @PathVariable String 
   <- List<ReimbursementResponse>
 
  -(Post)generate
